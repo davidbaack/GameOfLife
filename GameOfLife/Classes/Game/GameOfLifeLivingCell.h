@@ -5,25 +5,37 @@
 
 namespace game
 {
+    
+class GameOfLifeSimulationNode;
 
 class GameOfLifeLivingCell final : public cocos2d::Node
 {
     
 public:
     
-    CREATE_FUNC(GameOfLifeLivingCell);
+    static GameOfLifeLivingCell* create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
+    static bool shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
+    static bool shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
+    
+    std::vector<std::pair<int64_t, int64_t>> getGridCoordinatesShouldCreateCellsAt() const;
     
 private:
     
     // Use create instead of constructor
-    GameOfLifeLivingCell();
+    GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
     // Nodes are reference counted, not explicitly deleted
     virtual ~GameOfLifeLivingCell();
     
-    void onSimulationTick();
+    void onSimulationTickBegin();
+    void onSimulationTickEnd();
     
+    GameOfLifeSimulationNode& mGameOfLifeSimulationNode;
+    std::pair<int64_t, int64_t> mGridCoordinate;
     cocos2d::Sprite* mSprite;
-    std::shared_ptr<std::function<void()>> mSimulationTickCallback;
+    std::vector<std::pair<int64_t, int64_t>> mGridCoordinatesToCreateCellsAt;
+    bool mWillDie;
+    std::shared_ptr<std::function<void()>> mSimulationTickBeginCallback;
+    std::shared_ptr<std::function<void()>> mSimulationTickEndCallback;
     
 };
     

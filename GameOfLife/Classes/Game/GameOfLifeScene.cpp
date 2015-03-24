@@ -35,8 +35,11 @@ bool GameOfLifeScene::init()
     menu->setPosition(Vec2::ZERO);
     addChild(menu, zOrder++);
     
-    vector<pair<int64_t, int64_t>> livingCellCoordinates = {make_pair(0, 0)};
-    gameOfLifeSimulationNode->addLivingCells(livingCellCoordinates);
+    vector<pair<int64_t, int64_t>> livingCellCoordinates = { make_pair(10, 10), make_pair(11, 10), make_pair(12, 10), make_pair(12, 11), make_pair(11, 12) };
+    for (auto gridCoordinate : livingCellCoordinates)
+    {
+        gameOfLifeSimulationNode->createCell(gridCoordinate);
+    }
     gameOfLifeSimulationNode->runSimulation(0.5f);
     
     return true;

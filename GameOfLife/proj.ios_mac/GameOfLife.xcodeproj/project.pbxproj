@@ -19,6 +19,8 @@
 		173D2CF91AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CF61AC1211A00161C38 /* GameOfLifeLivingCell.cpp */; };
 		173D2CFB1AC127C300161C38 /* WhitePixel.png in Resources */ = {isa = PBXBuildFile; fileRef = 173D2CFA1AC127C300161C38 /* WhitePixel.png */; };
 		173D2CFC1AC127C300161C38 /* WhitePixel.png in Resources */ = {isa = PBXBuildFile; fileRef = 173D2CFA1AC127C300161C38 /* WhitePixel.png */; };
+		173D2D001AC13A6400161C38 /* GridUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */; };
+		173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -118,6 +120,8 @@
 		173D2CF61AC1211A00161C38 /* GameOfLifeLivingCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOfLifeLivingCell.cpp; sourceTree = "<group>"; };
 		173D2CF71AC1211A00161C38 /* GameOfLifeLivingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOfLifeLivingCell.h; sourceTree = "<group>"; };
 		173D2CFA1AC127C300161C38 /* WhitePixel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhitePixel.png; sourceTree = "<group>"; };
+		173D2CFE1AC13A1900161C38 /* GridUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridUtilities.h; sourceTree = "<group>"; };
+		173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridUtilities.cpp; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -254,6 +258,8 @@
 				173D2CF71AC1211A00161C38 /* GameOfLifeLivingCell.h */,
 				173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */,
 				173D2CF31AC11DB800161C38 /* GameOfLifeSimulationNode.h */,
+				173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */,
+				173D2CFE1AC13A1900161C38 /* GridUtilities.h */,
 				173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */,
 				173D2CE91AC10C1000161C38 /* GameOfLifeScene.h */,
 			);
@@ -534,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				173D2CEC1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
+				173D2D001AC13A6400161C38 /* GridUtilities.cpp in Sources */,
 				173D2CF81AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */,
 				173D2CF01AC10C5600161C38 /* NotificationCenter.cpp in Sources */,
 				173D2CEA1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
@@ -549,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
+				173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */,
 				173D2CF51AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
 				173D2CED1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				173D2CF91AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */,
