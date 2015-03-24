@@ -24,8 +24,8 @@ public:
     
 private:
     
-    NotificationCenter() {};
-    ~NotificationCenter() {};
+    NotificationCenter();
+    ~NotificationCenter();
     NotificationCenter(const NotificationCenter&) = delete;
     NotificationCenter& operator=(const NotificationCenter&) = delete;
     

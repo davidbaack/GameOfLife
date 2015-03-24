@@ -9,6 +9,12 @@ NotificationCenter& NotificationCenter::getInstance()
     return instance;
 }
 
+NotificationCenter::NotificationCenter()
+{}
+
+NotificationCenter::~NotificationCenter()
+{}
+
 void NotificationCenter::notify(const string& notificationName)
 {
     if (mNotificationToCallbacksMap.count(notificationName) == 0)

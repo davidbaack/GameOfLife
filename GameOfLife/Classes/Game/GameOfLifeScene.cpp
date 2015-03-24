@@ -23,17 +23,21 @@ bool GameOfLifeScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     int zOrder = 0;
+    
+    // Add the game of life simulation
+    auto gameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
+    addChild(gameOfLifeSimulationNode, zOrder++);
 
     // Add the close button
     auto closeButton = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", bind(&GameOfLifeScene::menuCloseCallback, this, placeholders::_1));
 	closeButton->setPosition(Vec2(origin.x + visibleSize.width - closeButton->getContentSize().width / 2, origin.y + closeButton->getContentSize().height / 2));
     auto menu = Menu::create(closeButton, nullptr);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, zOrder++);
-
-    // Add the game of life simulation
-    auto gameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
-    this->addChild(gameOfLifeSimulationNode, zOrder++);
+    addChild(menu, zOrder++);
+    
+    vector<pair<int64_t, int64_t>> livingCellCoordinates = {make_pair(0, 0)};
+    gameOfLifeSimulationNode->addLivingCells(livingCellCoordinates);
+    gameOfLifeSimulationNode->runSimulation(0.5f);
     
     return true;
 }
