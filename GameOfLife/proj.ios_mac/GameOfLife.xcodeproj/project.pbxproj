@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		173D2CEA1AC10C1000161C38 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE41AC10C1000161C38 /* AppDelegate.cpp */; };
 		173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE41AC10C1000161C38 /* AppDelegate.cpp */; };
-		173D2CEC1AC10C1000161C38 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE81AC10C1000161C38 /* HelloWorldScene.cpp */; };
-		173D2CED1AC10C1000161C38 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE81AC10C1000161C38 /* HelloWorldScene.cpp */; };
+		173D2CEC1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */; };
+		173D2CED1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */; };
 		173D2CF01AC10C5600161C38 /* NotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CEE1AC10C5600161C38 /* NotificationCenter.cpp */; };
 		173D2CF11AC10C5600161C38 /* NotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CEE1AC10C5600161C38 /* NotificationCenter.cpp */; };
+		173D2CF41AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */; };
+		173D2CF51AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -105,10 +107,12 @@
 /* Begin PBXFileReference section */
 		173D2CE41AC10C1000161C38 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		173D2CE51AC10C1000161C38 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		173D2CE81AC10C1000161C38 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		173D2CE91AC10C1000161C38 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
+		173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOfLifeScene.cpp; sourceTree = "<group>"; };
+		173D2CE91AC10C1000161C38 /* GameOfLifeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOfLifeScene.h; sourceTree = "<group>"; };
 		173D2CEE1AC10C5600161C38 /* NotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationCenter.cpp; sourceTree = "<group>"; };
 		173D2CEF1AC10C5600161C38 /* NotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenter.h; sourceTree = "<group>"; };
+		173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOfLifeSimulationNode.cpp; sourceTree = "<group>"; };
+		173D2CF31AC11DB800161C38 /* GameOfLifeSimulationNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOfLifeSimulationNode.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -242,8 +246,10 @@
 		173D2CE71AC10C1000161C38 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				173D2CE81AC10C1000161C38 /* HelloWorldScene.cpp */,
-				173D2CE91AC10C1000161C38 /* HelloWorldScene.h */,
+				173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */,
+				173D2CF31AC11DB800161C38 /* GameOfLifeSimulationNode.h */,
+				173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */,
+				173D2CE91AC10C1000161C38 /* GameOfLifeScene.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -521,9 +527,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				173D2CEC1AC10C1000161C38 /* HelloWorldScene.cpp in Sources */,
+				173D2CEC1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				173D2CF01AC10C5600161C38 /* NotificationCenter.cpp in Sources */,
 				173D2CEA1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
+				173D2CF41AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -535,7 +542,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
-				173D2CED1AC10C1000161C38 /* HelloWorldScene.cpp in Sources */,
+				173D2CF51AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
+				173D2CED1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				173D2CF11AC10C5600161C38 /* NotificationCenter.cpp in Sources */,
 			);
