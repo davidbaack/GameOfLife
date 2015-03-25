@@ -60,7 +60,7 @@ void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& g
         printf("Warning: trying to create a cell in a grid space that's already occupied\n");
         return;
     }
-    auto gameOfLifeLivingCell = mLivingCellPool.retrieveFromPool();
+    auto gameOfLifeLivingCell = mLivingCellPool.retrieve();
     if (gameOfLifeLivingCell)
     {
         gameOfLifeLivingCell->setGridCoordinate(gridCoordinate);
@@ -83,7 +83,7 @@ void GameOfLifeSimulationNode::killCell(const GridUtilities::GridCoordinate& gri
         return;
     }
     auto gameOfLifeLivingCell = iter->second;
-    mLivingCellPool.putInPool(gameOfLifeLivingCell);
+    mLivingCellPool.put(gameOfLifeLivingCell);
     mGridCoordinateToLivingCellMap.erase(iter);
 }
 

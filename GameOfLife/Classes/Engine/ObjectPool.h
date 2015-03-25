@@ -14,51 +14,51 @@ public:
     
     ~ObjectPool();
     
-    const std::list<T*>& getPool() const;
-    void putInPool(T* node);
-    T* retrieveFromPool();
+    const std::list<T*>& getPooledObjects() const;
+    void put(T* object);
+    T* retrieve();
     
 private:
     
-    std::list<T*> mPooledNodes;
+    std::list<T*> mPooledObjects;
     
 };
     
 template<typename T>
 ObjectPool<T>::~ObjectPool()
 {
-    for (auto node : mPooledNodes)
+    for (auto object : mPooledObjects)
     {
-        node->release();
+        object->release();
     }
 }
 
 template<typename T>
-const std::list<T*>& ObjectPool<T>::getPool() const
+const std::list<T*>& ObjectPool<T>::getPooledObjects() const
 {
-    return mPooledNodes;
+    return mPooledObjects;
 }
 
 template<typename T>
-void ObjectPool<T>::putInPool(T* node)
+void ObjectPool<T>::put(T* object)
 {
-    mPooledNodes.push_back(node);
-    node->retain();
-    node->onPutInPool();
+    mPooledObjects.push_back(object);
+    object->retain();
+    object->onPutInPool();
 }
     
 template<typename T>
-T* ObjectPool<T>::retrieveFromPool()
+T* ObjectPool<T>::retrieve()
 {
-    T* node = nullptr;
-    if (!mPooledNodes.empty())
+    T* object = nullptr;
+    if (!mPooledObjects.empty())
     {
-        node = mPooledNodes.back();
-        mPooledNodes.pop_back();
-        node->autorelease();
-        node->onRetrieveFromPool();
+        object = mPooledObjects.back();
+        mPooledObjects.pop_back();
+        object->autorelease();
+        object->onRetrieveFromPool();
     }
-    return node;
+    return object;
 }
     
 }
