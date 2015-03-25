@@ -1,6 +1,5 @@
 #include "GameOfLifeLivingCell.h"
 #include "GameOfLifeSimulationNode.h"
-#include "GridUtilities.h"
 #include "NotificationCenter.h"
 
 using namespace game;
@@ -9,7 +8,21 @@ using namespace std;
 
 static const string SPRITE_NAME = "WhitePixel.png";
 
-GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
+void GameOfLifeLivingCell::onPutInPool()
+{
+    PoolableNode::onPutInPool();
+    setVisible(false);
+}
+
+void GameOfLifeLivingCell::onRetrieveFromPool()
+{
+    PoolableNode::onRetrieveFromPool();
+    setVisible(true);
+    mWillDie = false;
+    mGridCoordinatesToCreateCellsAt.clear();
+}
+
+GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate)
 {
     GameOfLifeLivingCell* pRet = new(nothrow) GameOfLifeLivingCell(gameOfLifeSimulationNode, gridCoordinate);
     if (pRet && pRet->init())
@@ -24,12 +37,11 @@ GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gam
     }
 }
 
-GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
+GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate)
     : mGameOfLifeSimulationNode(gameOfLifeSimulationNode)
-    , mGridCoordinate(gridCoordinate)
     , mWillDie(false)
 {
-    setPosition(gridCoordinate.first * GridUtilities::GRID_SPACE_SIZE, gridCoordinate.second * GridUtilities::GRID_SPACE_SIZE);
+    setGridCoordinate(gridCoordinate);
     
     mSprite = Sprite::create(SPRITE_NAME);
     mSprite->setScale(GridUtilities::GRID_SPACE_SIZE);
@@ -44,13 +56,21 @@ GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeS
 GameOfLifeLivingCell::~GameOfLifeLivingCell()
 {}
 
-bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
+void GameOfLifeLivingCell::setGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate)
 {
+    mGridCoordinate = gridCoordinate;
+    setPosition(gridCoordinate.first * GridUtilities::GRID_SPACE_SIZE, gridCoordinate.second * GridUtilities::GRID_SPACE_SIZE);
+}
+
+bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate)
+{
+    // Check if we're already dead
     if (!gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(gridCoordinate))
     {
+        printf("Warning: checking if a cell that is already dead should die\n");
         return false;
     }
-    
+    // Die if the number of adjacent living cells isn't 2 or 3
     auto numAdjacentLivingCells = 0;
     bool isOutsideOfGrid;
     for (auto direction = 0; direction < GridUtilities::Direction::COUNT; ++direction)
@@ -69,13 +89,14 @@ bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeS
     return numAdjacentLivingCells < 2;
 }
 
-bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
+bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate)
 {
+    // Check if we're already alive
     if (gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(gridCoordinate))
     {
         return false;
     }
-    
+    // Come to life if the number of adjacent living cells is 3
     const auto& adjacentGridCoordinates = GridUtilities::getAdjacentGridCoordinates(gridCoordinate);
     auto numAdjacentLivingCells = 0;
     auto numCoordinatesLeftToCheck = adjacentGridCoordinates.size();
@@ -85,7 +106,6 @@ bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& game
         {
             ++numAdjacentLivingCells;
         }
-        
         // Return early if there are already too many adjacent living cells
         if (numAdjacentLivingCells > 3)
         {
@@ -101,9 +121,9 @@ bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& game
     return true;
 }
 
-vector<pair<int64_t, int64_t>> GameOfLifeLivingCell::attemptLivingCellCreationOnAdjacentCells() const
+vector<GridUtilities::GridCoordinate> GameOfLifeLivingCell::attemptLivingCellCreationInAdjacentCells() const
 {
-    vector<pair<int64_t, int64_t>> gridCoordinatesShouldCreateCellsAt;
+    vector<GridUtilities::GridCoordinate> gridCoordinatesToCreateCellsAt;
     for (const auto& adjacentGridCoordinate : GridUtilities::getAdjacentGridCoordinates(mGridCoordinate))
     {
         if (!mGameOfLifeSimulationNode.hasBeenCheckedForCellCreation(adjacentGridCoordinate))
@@ -111,22 +131,30 @@ vector<pair<int64_t, int64_t>> GameOfLifeLivingCell::attemptLivingCellCreationOn
             mGameOfLifeSimulationNode.markHasBeenCheckedForCellCreation(adjacentGridCoordinate);
             if (shouldComeToLife(mGameOfLifeSimulationNode, adjacentGridCoordinate))
             {
-                gridCoordinatesShouldCreateCellsAt.push_back(adjacentGridCoordinate);
+                gridCoordinatesToCreateCellsAt.push_back(adjacentGridCoordinate);
             }
         }
     }
-    return gridCoordinatesShouldCreateCellsAt;
+    return gridCoordinatesToCreateCellsAt;
 }
 
 void GameOfLifeLivingCell::onSimulationTickBegin()
 {
+    if (isInPool())
+    {
+        return;
+    }
     mWillDie = shouldDie(mGameOfLifeSimulationNode, mGridCoordinate);
-    mGridCoordinatesToCreateCellsAt = attemptLivingCellCreationOnAdjacentCells();
+    mGridCoordinatesToCreateCellsAt = attemptLivingCellCreationInAdjacentCells();
 }
 
 void GameOfLifeLivingCell::onSimulationTickEnd()
 {
-    for (auto gridCoordinate : mGridCoordinatesToCreateCellsAt)
+    if (isInPool())
+    {
+        return;
+    }
+    for (const auto& gridCoordinate : mGridCoordinatesToCreateCellsAt)
     {
         mGameOfLifeSimulationNode.createCell(gridCoordinate);
     }

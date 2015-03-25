@@ -6,7 +6,7 @@ using namespace game;
 using namespace cocos2d;
 using namespace std;
 
-void makeFloater(vector<pair<int64_t, int64_t>>& livingCellCoordinates)
+void makeFloater(vector<GridUtilities::GridCoordinate>& livingCellCoordinates)
 {
     auto startX = rand() % 100;
     auto startY = rand() % 100;
@@ -53,12 +53,12 @@ bool GameOfLifeScene::init()
     mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
     cameraNode->addChild(mGameOfLifeSimulationNode, zOrder++);
     
-    vector<pair<int64_t, int64_t>> livingCellCoordinates;
+    vector<GridUtilities::GridCoordinate> livingCellCoordinates;
     for (int i = 0; i < 100; ++i)
     {
         makeFloater(livingCellCoordinates);
     }
-    for (auto gridCoordinate : livingCellCoordinates)
+    for (const auto& gridCoordinate : livingCellCoordinates)
     {
         mGameOfLifeSimulationNode->createCell(gridCoordinate);
     }

@@ -23,6 +23,8 @@
 		173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */; };
 		173D2D041AC153C600161C38 /* CameraNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D021AC153C600161C38 /* CameraNode.cpp */; };
 		173D2D051AC153C600161C38 /* CameraNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D021AC153C600161C38 /* CameraNode.cpp */; };
+		173D2D9E1AC2965500161C38 /* PoolableNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D9D1AC2965500161C38 /* PoolableNode.cpp */; };
+		173D2D9F1AC2965500161C38 /* PoolableNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D9D1AC2965500161C38 /* PoolableNode.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -126,6 +128,9 @@
 		173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridUtilities.cpp; sourceTree = "<group>"; };
 		173D2D021AC153C600161C38 /* CameraNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraNode.cpp; sourceTree = "<group>"; };
 		173D2D031AC153C600161C38 /* CameraNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraNode.h; sourceTree = "<group>"; };
+		173D2D981AC28D0A00161C38 /* PoolableNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoolableNode.h; sourceTree = "<group>"; };
+		173D2D9A1AC28D0A00161C38 /* ObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPool.h; sourceTree = "<group>"; };
+		173D2D9D1AC2965500161C38 /* PoolableNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoolableNode.cpp; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -251,6 +256,9 @@
 			children = (
 				173D2CEE1AC10C5600161C38 /* NotificationCenter.cpp */,
 				173D2CEF1AC10C5600161C38 /* NotificationCenter.h */,
+				173D2D9D1AC2965500161C38 /* PoolableNode.cpp */,
+				173D2D981AC28D0A00161C38 /* PoolableNode.h */,
+				173D2D9A1AC28D0A00161C38 /* ObjectPool.h */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -554,6 +562,7 @@
 				173D2CF41AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				173D2D9E1AC2965500161C38 /* PoolableNode.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,6 +573,7 @@
 			files = (
 				173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
 				173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */,
+				173D2D9F1AC2965500161C38 /* PoolableNode.cpp in Sources */,
 				173D2CF51AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
 				173D2CED1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				173D2CF91AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */,

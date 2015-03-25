@@ -6,7 +6,11 @@ namespace game
 
 struct GridUtilities
 {
+    static constexpr int64_t INT_64_MAX_VALUE = 9223372036854775807;
+    static constexpr int64_t INT_64_MIN_VALUE = -9223372036854775807;
     static constexpr int GRID_SPACE_SIZE = 10;
+    
+    using GridCoordinate = std::pair<int64_t, int64_t>;
     
     enum Direction
     {
@@ -22,8 +26,8 @@ struct GridUtilities
     };
     
     // If we try to get an adjacent grid coordinate that is outside our maximum range, this will return the original gridCoordinate instead and set isOutsideOfGrid to true;
-    static std::pair<int64_t, int64_t> getAdjacentGridCoordinateInDirection(const std::pair<int64_t, int64_t>& gridCoordinate, Direction direction, bool& isOutsideOfGrid);
-    static std::vector<std::pair<int64_t, int64_t>> getAdjacentGridCoordinates(const std::pair<int64_t, int64_t>& gridCoordinate);
+    static GridCoordinate getAdjacentGridCoordinateInDirection(const GridCoordinate& gridCoordinate, Direction direction, bool& isOutsideOfGrid);
+    static std::vector<GridCoordinate> getAdjacentGridCoordinates(const GridCoordinate& gridCoordinate);
 };
     
 }

@@ -2,6 +2,7 @@
 #include "GameOfLifeLivingCell.h"
 #include "NotificationCenter.h"
 #include "CameraNode.h"
+#include <chrono>
 
 using namespace game;
 using namespace cocos2d;
@@ -13,8 +14,6 @@ const string GameOfLifeSimulationNode::SIMULATION_TICK_END_NOTIFICATION = "TickE
 GameOfLifeSimulationNode::GameOfLifeSimulationNode()
     : mTickAction(nullptr)
 {
-    mSimulationTickEndCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onSimulationTickEnd, this));
-    engine::NotificationCenter::getInstance().subscribe(GameOfLifeSimulationNode::SIMULATION_TICK_END_NOTIFICATION, mSimulationTickEndCallback);
     mCameraMovementBeginCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementBegin, this));
     engine::NotificationCenter::getInstance().subscribe(CameraNode::CAMERA_MOVEMENT_BEGIN, mCameraMovementBeginCallback);
     mCameraMovementEndCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementEnd, this));
@@ -34,7 +33,7 @@ void GameOfLifeSimulationNode::runSimulation(float tickInterval)
     runAction(mTickAction);
 }
 
-GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(const pair<int64_t, int64_t>& gridCoordinate) const
+GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate) const
 {
     if (mGridCoordinateToLivingCellMap.count(gridCoordinate) == 0)
     {
@@ -43,47 +42,64 @@ GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(co
     return mGridCoordinateToLivingCellMap.at(gridCoordinate);
 }
 
-bool GameOfLifeSimulationNode::hasBeenCheckedForCellCreation(const pair<int64_t, int64_t>& gridCoordinate) const
+bool GameOfLifeSimulationNode::hasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate) const
 {
     return mGridCoordinateCheckedForCellCreationSet.count(gridCoordinate) > 0;
 }
 
-void GameOfLifeSimulationNode::markHasBeenCheckedForCellCreation(const pair<int64_t, int64_t>& gridCoordinate)
+void GameOfLifeSimulationNode::markHasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate)
 {
     mGridCoordinateCheckedForCellCreationSet.insert(gridCoordinate);
 }
 
-void GameOfLifeSimulationNode::createCell(const pair<int64_t, int64_t>& gridCoordinate)
+void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& gridCoordinate)
 {
+    // Check if this cell is already alive
     if (mGridCoordinateToLivingCellMap.count(gridCoordinate) > 0)
     {
+        printf("Warning: trying to create a cell in a grid space that's already occupied\n");
         return;
     }
-    auto gameOfLifeLivingCell = GameOfLifeLivingCell::create(*this, gridCoordinate);
-    mGridCoordinateToLivingCellMap.insert(make_pair(gridCoordinate, gameOfLifeLivingCell));
-    addChild(gameOfLifeLivingCell);
-}
-
-void GameOfLifeSimulationNode::killCell(const pair<int64_t, int64_t>& gridCoordinate)
-{
-    if (mGridCoordinateToLivingCellMap.count(gridCoordinate) == 0)
+    auto gameOfLifeLivingCell = mLivingCellPool.retrieveFromPool();
+    if (gameOfLifeLivingCell)
     {
-        return;
+        gameOfLifeLivingCell->setGridCoordinate(gridCoordinate);
     }
-    auto gameOfLifeLivingCell = mGridCoordinateToLivingCellMap.at(gridCoordinate);
-    mGridCoordinateToLivingCellMap.erase(gridCoordinate);
-    gameOfLifeLivingCell->removeFromParent();
+    else
+    {
+        gameOfLifeLivingCell = GameOfLifeLivingCell::create(*this, gridCoordinate);
+        addChild(gameOfLifeLivingCell);
+    }
+    mGridCoordinateToLivingCellMap[gridCoordinate] = gameOfLifeLivingCell;
 }
 
-void GameOfLifeSimulationNode::tickSimulation() const
+void GameOfLifeSimulationNode::killCell(const GridUtilities::GridCoordinate& gridCoordinate)
 {
+    auto iter = mGridCoordinateToLivingCellMap.find(gridCoordinate);
+    // Check if this cell is already dead
+    if (iter == mGridCoordinateToLivingCellMap.end())
+    {
+        printf("Warning: trying to kill a cell that has already been killed\n");
+        return;
+    }
+    auto gameOfLifeLivingCell = iter->second;
+    mLivingCellPool.putInPool(gameOfLifeLivingCell);
+    mGridCoordinateToLivingCellMap.erase(iter);
+}
+
+void GameOfLifeSimulationNode::tickSimulation()
+{
+    chrono::high_resolution_clock::time_point timeSimulationStart = chrono::high_resolution_clock::now();
+    
     engine::NotificationCenter::getInstance().notify(SIMULATION_TICK_BEGIN_NOTIFICATION);
     engine::NotificationCenter::getInstance().notify(SIMULATION_TICK_END_NOTIFICATION);
-}
-
-void GameOfLifeSimulationNode::onSimulationTickEnd()
-{
     mGridCoordinateCheckedForCellCreationSet.clear();
+    
+    chrono::high_resolution_clock::time_point timeSimulationEnd = chrono::high_resolution_clock::now();
+    
+    chrono::milliseconds timeTaken = std::chrono::duration_cast<chrono::milliseconds>(timeSimulationEnd - timeSimulationStart);
+    
+    printf("Simulation tick time taken: %lli milliseconds\n", timeTaken.count());
 }
 
 void GameOfLifeSimulationNode::onCameraMovementBegin()

@@ -1,28 +1,33 @@
 #ifndef _GAME_GAME_OF_LIFE_LIVING_CELL_H
 #define _GAME_GAME_OF_LIFE_LIVING_CELL_H
 
-#include "cocos2d.h"
+#include "PoolableNode.h"
+#include "GridUtilities.h"
 
 namespace game
 {
     
 class GameOfLifeSimulationNode;
 
-class GameOfLifeLivingCell final : public cocos2d::Node
+class GameOfLifeLivingCell final : public engine::PoolableNode
 {
     
 public:
     
-    static GameOfLifeLivingCell* create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
-    static bool shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
-    static bool shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
+    virtual void onPutInPool() override;
+    virtual void onRetrieveFromPool() override;
     
-    std::vector<std::pair<int64_t, int64_t>> attemptLivingCellCreationOnAdjacentCells() const;
+    static GameOfLifeLivingCell* create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate);
+    static bool shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate);
+    static bool shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate);
+    
+    void setGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate);
+    std::vector<GridUtilities::GridCoordinate> attemptLivingCellCreationInAdjacentCells() const;
     
 private:
     
     // Use create instead of constructor
-    GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
+    GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const GridUtilities::GridCoordinate& gridCoordinate);
     // Nodes are reference counted, not explicitly deleted
     virtual ~GameOfLifeLivingCell();
     
@@ -30,9 +35,9 @@ private:
     void onSimulationTickEnd();
     
     GameOfLifeSimulationNode& mGameOfLifeSimulationNode;
-    std::pair<int64_t, int64_t> mGridCoordinate;
+    GridUtilities::GridCoordinate mGridCoordinate;
     cocos2d::Sprite* mSprite;
-    std::vector<std::pair<int64_t, int64_t>> mGridCoordinatesToCreateCellsAt;
+    std::vector<GridUtilities::GridCoordinate> mGridCoordinatesToCreateCellsAt;
     bool mWillDie;
     std::shared_ptr<std::function<void()>> mSimulationTickBeginCallback;
     std::shared_ptr<std::function<void()>> mSimulationTickEndCallback;

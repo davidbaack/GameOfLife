@@ -4,14 +4,11 @@
 using namespace game;
 using namespace std;
 
-static const int64_t INT_64_MAX_VALUE = 9223372036854775807;
-static const int64_t INT_64_MIN_VALUE = -9223372036854775807;
-
-pair<int64_t, int64_t> GridUtilities::getAdjacentGridCoordinateInDirection(const pair<int64_t, int64_t>& gridCoordinate, Direction direction, bool& isOutsideOfGrid)
+GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirection(const GridCoordinate& gridCoordinate, Direction direction, bool& isOutsideOfGrid)
 {
     isOutsideOfGrid = true;
     
-    pair<int64_t, int64_t> adjacentGridCoordinate = gridCoordinate;
+    GridCoordinate adjacentGridCoordinate = gridCoordinate;
     if (direction == EAST)
     {
         if (gridCoordinate.first < INT_64_MAX_VALUE)
@@ -84,9 +81,9 @@ pair<int64_t, int64_t> GridUtilities::getAdjacentGridCoordinateInDirection(const
     return adjacentGridCoordinate;
 }
 
-vector<pair<int64_t, int64_t>> GridUtilities::getAdjacentGridCoordinates(const pair<int64_t, int64_t>& gridCoordinate)
+vector<GridUtilities::GridCoordinate> GridUtilities::getAdjacentGridCoordinates(const GridCoordinate& gridCoordinate)
 {
-    vector<pair<int64_t, int64_t>> adjacentGridCoordinates;
+    vector<GridCoordinate> adjacentGridCoordinates;
     bool isOutsideOfGrid;
     for (auto direction = 0; direction < GridUtilities::Direction::COUNT; ++direction)
     {
