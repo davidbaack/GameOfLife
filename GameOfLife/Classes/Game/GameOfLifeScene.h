@@ -5,6 +5,8 @@
 
 namespace game
 {
+    
+class GameOfLifeSimulationNode;
 
 class GameOfLifeScene : public cocos2d::Layer
 {
@@ -20,6 +22,8 @@ private:
     CREATE_FUNC(GameOfLifeScene);
     
     void menuCloseCallback(cocos2d::Ref* sender);
+    
+    GameOfLifeSimulationNode* mGameOfLifeSimulationNode;
     
 };
     

@@ -1,9 +1,21 @@
 #include "GameOfLifeScene.h"
 #include "GameOfLifeSimulationNode.h"
+#include "CameraNode.h"
 
 using namespace game;
 using namespace cocos2d;
 using namespace std;
+
+void makeFloater(vector<pair<int64_t, int64_t>>& livingCellCoordinates)
+{
+    auto startX = rand() % 100;
+    auto startY = rand() % 100;
+    livingCellCoordinates.push_back(make_pair(startX, startY));
+    livingCellCoordinates.push_back(make_pair(startX + 1, startY));
+    livingCellCoordinates.push_back(make_pair(startX + 2, startY));
+    livingCellCoordinates.push_back(make_pair(startX + 2, startY + 1));
+    livingCellCoordinates.push_back(make_pair(startX + 1, startY + 2));
+}
 
 Scene* GameOfLifeScene::createScene()
 {
@@ -20,13 +32,15 @@ bool GameOfLifeScene::init()
         return false;
     }
     
+    srand(time(NULL));
+    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     int zOrder = 0;
     
-    // Add the game of life simulation
-    auto gameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
-    addChild(gameOfLifeSimulationNode, zOrder++);
+    // Add the camera
+    auto cameraNode = CameraNode::create();
+    addChild(cameraNode, zOrder++);
 
     // Add the close button
     auto closeButton = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", bind(&GameOfLifeScene::menuCloseCallback, this, placeholders::_1));
@@ -35,16 +49,23 @@ bool GameOfLifeScene::init()
     menu->setPosition(Vec2::ZERO);
     addChild(menu, zOrder++);
     
-    vector<pair<int64_t, int64_t>> livingCellCoordinates = { make_pair(10, 10), make_pair(11, 10), make_pair(12, 10), make_pair(12, 11), make_pair(11, 12) };
+    // Add the game of life simulation
+    mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
+    cameraNode->addChild(mGameOfLifeSimulationNode, zOrder++);
+    
+    vector<pair<int64_t, int64_t>> livingCellCoordinates;
+    for (int i = 0; i < 100; ++i)
+    {
+        makeFloater(livingCellCoordinates);
+    }
     for (auto gridCoordinate : livingCellCoordinates)
     {
-        gameOfLifeSimulationNode->createCell(gridCoordinate);
+        mGameOfLifeSimulationNode->createCell(gridCoordinate);
     }
-    gameOfLifeSimulationNode->runSimulation(0.5f);
+    mGameOfLifeSimulationNode->runSimulation(0.2f);
     
     return true;
 }
-
 
 void GameOfLifeScene::menuCloseCallback(Ref* sender)
 {

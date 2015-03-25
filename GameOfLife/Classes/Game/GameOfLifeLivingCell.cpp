@@ -9,7 +9,7 @@ using namespace std;
 
 static const string SPRITE_NAME = "WhitePixel.png";
 
-GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, pair<int64_t, int64_t> gridCoordinate)
+GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
 {
     GameOfLifeLivingCell* pRet = new(nothrow) GameOfLifeLivingCell(gameOfLifeSimulationNode, gridCoordinate);
     if (pRet && pRet->init())
@@ -24,15 +24,15 @@ GameOfLifeLivingCell* GameOfLifeLivingCell::create(GameOfLifeSimulationNode& gam
     }
 }
 
-GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, pair<int64_t, int64_t> gridCoordinate)
+GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
     : mGameOfLifeSimulationNode(gameOfLifeSimulationNode)
     , mGridCoordinate(gridCoordinate)
     , mWillDie(false)
 {
-    setPosition(gridCoordinate.first * 10, gridCoordinate.second * 10);
+    setPosition(gridCoordinate.first * GridUtilities::GRID_SPACE_SIZE, gridCoordinate.second * GridUtilities::GRID_SPACE_SIZE);
     
     mSprite = Sprite::create(SPRITE_NAME);
-    mSprite->setScale(10, 10);
+    mSprite->setScale(GridUtilities::GRID_SPACE_SIZE);
     addChild(mSprite);
     
     mSimulationTickBeginCallback = make_shared<function<void()>>(bind(&GameOfLifeLivingCell::onSimulationTickBegin, this));
@@ -44,7 +44,7 @@ GameOfLifeLivingCell::GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeS
 GameOfLifeLivingCell::~GameOfLifeLivingCell()
 {}
 
-bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, pair<int64_t, int64_t> gridCoordinate)
+bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
 {
     if (!gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(gridCoordinate))
     {
@@ -52,45 +52,67 @@ bool GameOfLifeLivingCell::shouldDie(const GameOfLifeSimulationNode& gameOfLifeS
     }
     
     auto numAdjacentLivingCells = 0;
-    const auto& adjacentGridCoordinates = GridUtilities::getAdjacentGridCoordinates(gridCoordinate);
-    for (auto adjacentGridCoordinate : adjacentGridCoordinates)
+    bool isOutsideOfGrid;
+    for (auto direction = 0; direction < GridUtilities::Direction::COUNT; ++direction)
     {
-        if (gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(adjacentGridCoordinate))
+        const auto& adjacentGridCoordinate = GridUtilities::getAdjacentGridCoordinateInDirection(gridCoordinate, static_cast<GridUtilities::Direction>(direction), isOutsideOfGrid);
+        if (!isOutsideOfGrid && gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(adjacentGridCoordinate))
         {
             ++numAdjacentLivingCells;
+            if (numAdjacentLivingCells > 3)
+            {
+                return true;
+            }
         }
     }
-    return numAdjacentLivingCells < 2 || numAdjacentLivingCells > 3;
+    
+    return numAdjacentLivingCells < 2;
 }
 
-bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, pair<int64_t, int64_t> gridCoordinate)
+bool GameOfLifeLivingCell::shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const pair<int64_t, int64_t>& gridCoordinate)
 {
     if (gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(gridCoordinate))
     {
         return false;
     }
     
-    auto numAdjacentLivingCells = 0;
     const auto& adjacentGridCoordinates = GridUtilities::getAdjacentGridCoordinates(gridCoordinate);
-    for (auto adjacentGridCoordinate : adjacentGridCoordinates)
+    auto numAdjacentLivingCells = 0;
+    auto numCoordinatesLeftToCheck = adjacentGridCoordinates.size();
+    for (const auto& adjacentGridCoordinate : adjacentGridCoordinates)
     {
         if (gameOfLifeSimulationNode.getLivingCellAtGridCoordinate(adjacentGridCoordinate))
         {
             ++numAdjacentLivingCells;
         }
+        
+        // Return early if there are already too many adjacent living cells
+        if (numAdjacentLivingCells > 3)
+        {
+            return false;
+        }
+        --numCoordinatesLeftToCheck;
+        // Return early if there are not enough adjacent cells left to check to get the count up to 3
+        if (numAdjacentLivingCells + numCoordinatesLeftToCheck < 3)
+        {
+            return false;
+        }
     }
-    return numAdjacentLivingCells == 3;
+    return true;
 }
 
-vector<pair<int64_t, int64_t>> GameOfLifeLivingCell::getGridCoordinatesShouldCreateCellsAt() const
+vector<pair<int64_t, int64_t>> GameOfLifeLivingCell::attemptLivingCellCreationOnAdjacentCells() const
 {
     vector<pair<int64_t, int64_t>> gridCoordinatesShouldCreateCellsAt;
-    const auto& adjacentGridCoordinates = GridUtilities::getAdjacentGridCoordinates(mGridCoordinate);
-    for (auto adjacentGridCoordinate : adjacentGridCoordinates)
+    for (const auto& adjacentGridCoordinate : GridUtilities::getAdjacentGridCoordinates(mGridCoordinate))
     {
-        if (!mGameOfLifeSimulationNode.isGridCoordinateReservedForCreation(adjacentGridCoordinate) && shouldComeToLife(mGameOfLifeSimulationNode, adjacentGridCoordinate))
+        if (!mGameOfLifeSimulationNode.hasBeenCheckedForCellCreation(adjacentGridCoordinate))
         {
-            gridCoordinatesShouldCreateCellsAt.push_back(adjacentGridCoordinate);
+            mGameOfLifeSimulationNode.markHasBeenCheckedForCellCreation(adjacentGridCoordinate);
+            if (shouldComeToLife(mGameOfLifeSimulationNode, adjacentGridCoordinate))
+            {
+                gridCoordinatesShouldCreateCellsAt.push_back(adjacentGridCoordinate);
+            }
         }
     }
     return gridCoordinatesShouldCreateCellsAt;
@@ -99,11 +121,7 @@ vector<pair<int64_t, int64_t>> GameOfLifeLivingCell::getGridCoordinatesShouldCre
 void GameOfLifeLivingCell::onSimulationTickBegin()
 {
     mWillDie = shouldDie(mGameOfLifeSimulationNode, mGridCoordinate);
-    mGridCoordinatesToCreateCellsAt = getGridCoordinatesShouldCreateCellsAt();
-    for (auto gridCoordinate : mGridCoordinatesToCreateCellsAt)
-    {
-        mGameOfLifeSimulationNode.reserveGridCoordinateForCreation(gridCoordinate);
-    }
+    mGridCoordinatesToCreateCellsAt = attemptLivingCellCreationOnAdjacentCells();
 }
 
 void GameOfLifeLivingCell::onSimulationTickEnd()

@@ -1,6 +1,7 @@
 #include "GameOfLifeSimulationNode.h"
 #include "GameOfLifeLivingCell.h"
 #include "NotificationCenter.h"
+#include "CameraNode.h"
 
 using namespace game;
 using namespace cocos2d;
@@ -14,6 +15,10 @@ GameOfLifeSimulationNode::GameOfLifeSimulationNode()
 {
     mSimulationTickEndCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onSimulationTickEnd, this));
     engine::NotificationCenter::getInstance().subscribe(GameOfLifeSimulationNode::SIMULATION_TICK_END_NOTIFICATION, mSimulationTickEndCallback);
+    mCameraMovementBeginCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementBegin, this));
+    engine::NotificationCenter::getInstance().subscribe(CameraNode::CAMERA_MOVEMENT_BEGIN, mCameraMovementBeginCallback);
+    mCameraMovementEndCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementEnd, this));
+    engine::NotificationCenter::getInstance().subscribe(CameraNode::CAMERA_MOVEMENT_END, mCameraMovementEndCallback);
 }
 
 GameOfLifeSimulationNode::~GameOfLifeSimulationNode()
@@ -29,7 +34,7 @@ void GameOfLifeSimulationNode::runSimulation(float tickInterval)
     runAction(mTickAction);
 }
 
-GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(pair<int64_t, int64_t> gridCoordinate) const
+GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(const pair<int64_t, int64_t>& gridCoordinate) const
 {
     if (mGridCoordinateToLivingCellMap.count(gridCoordinate) == 0)
     {
@@ -38,17 +43,17 @@ GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(pa
     return mGridCoordinateToLivingCellMap.at(gridCoordinate);
 }
 
-bool GameOfLifeSimulationNode::isGridCoordinateReservedForCreation(pair<int64_t, int64_t> gridCoordinate) const
+bool GameOfLifeSimulationNode::hasBeenCheckedForCellCreation(const pair<int64_t, int64_t>& gridCoordinate) const
 {
-    return mReservedGridCoordinateForCellCreationSet.count(gridCoordinate) > 0;
+    return mGridCoordinateCheckedForCellCreationSet.count(gridCoordinate) > 0;
 }
 
-void GameOfLifeSimulationNode::reserveGridCoordinateForCreation(pair<int64_t, int64_t> gridCoordinate)
+void GameOfLifeSimulationNode::markHasBeenCheckedForCellCreation(const pair<int64_t, int64_t>& gridCoordinate)
 {
-    mReservedGridCoordinateForCellCreationSet.insert(gridCoordinate);
+    mGridCoordinateCheckedForCellCreationSet.insert(gridCoordinate);
 }
 
-void GameOfLifeSimulationNode::createCell(pair<int64_t, int64_t> gridCoordinate)
+void GameOfLifeSimulationNode::createCell(const pair<int64_t, int64_t>& gridCoordinate)
 {
     if (mGridCoordinateToLivingCellMap.count(gridCoordinate) > 0)
     {
@@ -59,7 +64,7 @@ void GameOfLifeSimulationNode::createCell(pair<int64_t, int64_t> gridCoordinate)
     addChild(gameOfLifeLivingCell);
 }
 
-void GameOfLifeSimulationNode::killCell(pair<int64_t, int64_t> gridCoordinate)
+void GameOfLifeSimulationNode::killCell(const pair<int64_t, int64_t>& gridCoordinate)
 {
     if (mGridCoordinateToLivingCellMap.count(gridCoordinate) == 0)
     {
@@ -78,5 +83,15 @@ void GameOfLifeSimulationNode::tickSimulation() const
 
 void GameOfLifeSimulationNode::onSimulationTickEnd()
 {
-    mReservedGridCoordinateForCellCreationSet.clear();
+    mGridCoordinateCheckedForCellCreationSet.clear();
+}
+
+void GameOfLifeSimulationNode::onCameraMovementBegin()
+{
+    //pause();
+}
+
+void GameOfLifeSimulationNode::onCameraMovementEnd()
+{
+    //resume();
 }

@@ -13,16 +13,16 @@ class GameOfLifeLivingCell final : public cocos2d::Node
     
 public:
     
-    static GameOfLifeLivingCell* create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
-    static bool shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
-    static bool shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
+    static GameOfLifeLivingCell* create(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
+    static bool shouldDie(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
+    static bool shouldComeToLife(const GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
     
-    std::vector<std::pair<int64_t, int64_t>> getGridCoordinatesShouldCreateCellsAt() const;
+    std::vector<std::pair<int64_t, int64_t>> attemptLivingCellCreationOnAdjacentCells() const;
     
 private:
     
     // Use create instead of constructor
-    GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, std::pair<int64_t, int64_t> gridCoordinate);
+    GameOfLifeLivingCell(GameOfLifeSimulationNode& gameOfLifeSimulationNode, const std::pair<int64_t, int64_t>& gridCoordinate);
     // Nodes are reference counted, not explicitly deleted
     virtual ~GameOfLifeLivingCell();
     

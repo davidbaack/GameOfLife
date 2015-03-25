@@ -21,6 +21,8 @@
 		173D2CFC1AC127C300161C38 /* WhitePixel.png in Resources */ = {isa = PBXBuildFile; fileRef = 173D2CFA1AC127C300161C38 /* WhitePixel.png */; };
 		173D2D001AC13A6400161C38 /* GridUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */; };
 		173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */; };
+		173D2D041AC153C600161C38 /* CameraNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D021AC153C600161C38 /* CameraNode.cpp */; };
+		173D2D051AC153C600161C38 /* CameraNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2D021AC153C600161C38 /* CameraNode.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -122,6 +124,8 @@
 		173D2CFA1AC127C300161C38 /* WhitePixel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhitePixel.png; sourceTree = "<group>"; };
 		173D2CFE1AC13A1900161C38 /* GridUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridUtilities.h; sourceTree = "<group>"; };
 		173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridUtilities.cpp; sourceTree = "<group>"; };
+		173D2D021AC153C600161C38 /* CameraNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraNode.cpp; sourceTree = "<group>"; };
+		173D2D031AC153C600161C38 /* CameraNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraNode.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -258,6 +262,8 @@
 				173D2CF71AC1211A00161C38 /* GameOfLifeLivingCell.h */,
 				173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */,
 				173D2CF31AC11DB800161C38 /* GameOfLifeSimulationNode.h */,
+				173D2D021AC153C600161C38 /* CameraNode.cpp */,
+				173D2D031AC153C600161C38 /* CameraNode.h */,
 				173D2CFF1AC13A6400161C38 /* GridUtilities.cpp */,
 				173D2CFE1AC13A1900161C38 /* GridUtilities.h */,
 				173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */,
@@ -441,7 +447,7 @@
 				LastUpgradeCheck = 0620;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = MDDB52YB8L;
+						DevelopmentTeam = 87K4GYXMP4;
 					};
 				};
 			};
@@ -539,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				173D2D041AC153C600161C38 /* CameraNode.cpp in Sources */,
 				173D2CEC1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				173D2D001AC13A6400161C38 /* GridUtilities.cpp in Sources */,
 				173D2CF81AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */,
@@ -561,6 +568,7 @@
 				173D2CED1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */,
 				173D2CF91AC1211A00161C38 /* GameOfLifeLivingCell.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				173D2D051AC153C600161C38 /* CameraNode.cpp in Sources */,
 				173D2CF11AC10C5600161C38 /* NotificationCenter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
