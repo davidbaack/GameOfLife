@@ -20,14 +20,8 @@ public:
     CREATE_FUNC(GameOfLifeSimulationNode);
     
     void runSimulation(float tickInterval);
-    GameOfLifeLivingCell* getLivingCellAtGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate) const;
-    bool hasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate) const;
-    void markHasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate);
     void createCell(const GridUtilities::GridCoordinate& gridCoordinate);
     void killCell(const GridUtilities::GridCoordinate& gridCoordinate);
-    
-    static const std::string SIMULATION_TICK_BEGIN_NOTIFICATION;
-    static const std::string SIMULATION_TICK_END_NOTIFICATION;
     
 private:
     
@@ -41,7 +35,6 @@ private:
     void onCameraMovementBegin();
     void onCameraMovementEnd();
     
-    std::set<GridUtilities::GridCoordinate> mGridCoordinateCheckedForCellCreationSet;
     std::map<GridUtilities::GridCoordinate, GameOfLifeLivingCell*> mGridCoordinateToLivingCellMap;
     cocos2d::Action* mTickAction;
     std::shared_ptr<std::function<void()>> mCameraMovementBeginCallback;

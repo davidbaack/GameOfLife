@@ -8,9 +8,6 @@ using namespace game;
 using namespace cocos2d;
 using namespace std;
 
-const string GameOfLifeSimulationNode::SIMULATION_TICK_BEGIN_NOTIFICATION = "TickBegin";
-const string GameOfLifeSimulationNode::SIMULATION_TICK_END_NOTIFICATION = "TickEnd";
-
 GameOfLifeSimulationNode::GameOfLifeSimulationNode()
     : mTickAction(nullptr)
 {
@@ -33,25 +30,6 @@ void GameOfLifeSimulationNode::runSimulation(float tickInterval)
     runAction(mTickAction);
 }
 
-GameOfLifeLivingCell* GameOfLifeSimulationNode::getLivingCellAtGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate) const
-{
-    if (mGridCoordinateToLivingCellMap.count(gridCoordinate) == 0)
-    {
-        return nullptr;
-    }
-    return mGridCoordinateToLivingCellMap.at(gridCoordinate);
-}
-
-bool GameOfLifeSimulationNode::hasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate) const
-{
-    return mGridCoordinateCheckedForCellCreationSet.count(gridCoordinate) > 0;
-}
-
-void GameOfLifeSimulationNode::markHasBeenCheckedForCellCreation(const GridUtilities::GridCoordinate& gridCoordinate)
-{
-    mGridCoordinateCheckedForCellCreationSet.insert(gridCoordinate);
-}
-
 void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& gridCoordinate)
 {
     // Check if this cell is already alive
@@ -61,15 +39,12 @@ void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& g
         return;
     }
     auto gameOfLifeLivingCell = mLivingCellPool.retrieve();
-    if (gameOfLifeLivingCell)
+    if (!gameOfLifeLivingCell)
     {
-        gameOfLifeLivingCell->setGridCoordinate(gridCoordinate);
-    }
-    else
-    {
-        gameOfLifeLivingCell = GameOfLifeLivingCell::create(*this, gridCoordinate);
+        gameOfLifeLivingCell = GameOfLifeLivingCell::create();
         addChild(gameOfLifeLivingCell);
     }
+    gameOfLifeLivingCell->setPositionForGridCoordinate(gridCoordinate);
     mGridCoordinateToLivingCellMap[gridCoordinate] = gameOfLifeLivingCell;
 }
 
@@ -91,14 +66,66 @@ void GameOfLifeSimulationNode::tickSimulation()
 {
     chrono::high_resolution_clock::time_point timeSimulationStart = chrono::high_resolution_clock::now();
     
-    engine::NotificationCenter::getInstance().notify(SIMULATION_TICK_BEGIN_NOTIFICATION);
-    engine::NotificationCenter::getInstance().notify(SIMULATION_TICK_END_NOTIFICATION);
-    mGridCoordinateCheckedForCellCreationSet.clear();
+    // Mark all living cells to have 0 neighbors at first. That way we won't forget to kill them if they really have no neighbors
+    map<GridUtilities::GridCoordinate, int> gridCoordinateToAdjacentLivingCellCountMap;
+    for (const auto& gridCoordinateToLivingCellPair : mGridCoordinateToLivingCellMap)
+    {
+        gridCoordinateToAdjacentLivingCellCountMap[gridCoordinateToLivingCellPair.first] = 0;
+    }
+    
+    // Mark all grid spaces adjacent to living cells with how many living neighbors they have
+    for (const auto& gridCoordinateToLivingCellPair : mGridCoordinateToLivingCellMap)
+    {
+        for (const auto& adjacentGridCoordinate : GridUtilities::getAdjacentGridCoordinates(gridCoordinateToLivingCellPair.first))
+        {
+            auto adjacentLivingCellCountIter = gridCoordinateToAdjacentLivingCellCountMap.find(adjacentGridCoordinate);
+            if (adjacentLivingCellCountIter == gridCoordinateToAdjacentLivingCellCountMap.end())
+            {
+                gridCoordinateToAdjacentLivingCellCountMap[adjacentGridCoordinate] = 1;
+            }
+            else
+            {
+                adjacentLivingCellCountIter->second++;
+            }
+        }
+    }
+    
+    // Create and kill cells based on the number of living neighbors
+    list<GridUtilities::GridCoordinate> gridCoordinatesOfCellsToKill;
+    list<GridUtilities::GridCoordinate> gridCoordinatesOfCellsToCreate;
+    for (const auto& gridCoordinateToAdjacentLivingCellCountPair : gridCoordinateToAdjacentLivingCellCountMap)
+    {
+        const auto& gridCoordinate = gridCoordinateToAdjacentLivingCellCountPair.first;
+        auto adjacentLivingCellCount = gridCoordinateToAdjacentLivingCellCountPair.second;
+        auto livingCellIter = mGridCoordinateToLivingCellMap.find(gridCoordinate);
+        // Die if the number of adjacent living cells isn't 2 or 3
+        if (livingCellIter != mGridCoordinateToLivingCellMap.end())
+        {
+            if (adjacentLivingCellCount < 2 || adjacentLivingCellCount > 3)
+            {
+                killCell(gridCoordinate);
+            }
+        }
+        // Come to life if the number of adjacent living cells is 3
+        else
+        {
+            if (adjacentLivingCellCount == 3)
+            {
+                createCell(gridCoordinate);
+            }
+        }
+    }
+    for (const auto& gridCoordinate : gridCoordinatesOfCellsToKill)
+    {
+        killCell(gridCoordinate);
+    }
+    for (const auto& gridCoordinate : gridCoordinatesOfCellsToCreate)
+    {
+        createCell(gridCoordinate);
+    }
     
     chrono::high_resolution_clock::time_point timeSimulationEnd = chrono::high_resolution_clock::now();
-    
     chrono::milliseconds timeTaken = std::chrono::duration_cast<chrono::milliseconds>(timeSimulationEnd - timeSimulationStart);
-    
     printf("Simulation tick time taken: %lli milliseconds\n", timeTaken.count());
 }
 
