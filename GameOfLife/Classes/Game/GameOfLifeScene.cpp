@@ -1,7 +1,7 @@
 #include "GameOfLifeScene.h"
 #include "GameOfLifeSimulationNode.h"
 #include "CameraNode.h"
-#include "CreateFloaterOnTapNode.h"
+#include "CreateGliderOnTapNode.h"
 #include "NotificationCenter.h"
 
 using namespace game;
@@ -81,10 +81,10 @@ bool GameOfLifeScene::init()
     mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
     cameraNode->addChild(mGameOfLifeSimulationNode, zOrder++);
     
-    // Add the create floater on tap node
-    auto createFloaterOnTapNode = CreateFloaterOnTapNode::create();
-    createFloaterOnTapNode->setGameOfLifeSimulationNode(mGameOfLifeSimulationNode);
-    addChild(createFloaterOnTapNode, zOrder++);
+    // Add the create glider on tap node
+    auto CreateGliderOnTapNode = CreateGliderOnTapNode::create();
+    CreateGliderOnTapNode->setGameOfLifeSimulationNode(mGameOfLifeSimulationNode);
+    addChild(CreateGliderOnTapNode, zOrder++);
     
     spawnRandomCells(mGameOfLifeSimulationNode, 600, 40000);
     mGameOfLifeSimulationNode->runSimulation(0.2f);

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		173B1E781AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173B1E761AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp */; };
-		173B1E791AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173B1E761AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp */; };
+		173B1E781AC3B7B40070F315 /* CreateGliderOnTapNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173B1E761AC3B7B40070F315 /* CreateGliderOnTapNode.cpp */; };
+		173B1E791AC3B7B40070F315 /* CreateGliderOnTapNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173B1E761AC3B7B40070F315 /* CreateGliderOnTapNode.cpp */; };
 		173B1E941AC3C22E0070F315 /* button_black_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E931AC3C22E0070F315 /* button_black_pause.png */; };
 		173B1E951AC3C22E0070F315 /* button_black_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E931AC3C22E0070F315 /* button_black_pause.png */; };
 		173B1E971AC3C3960070F315 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E961AC3C3960070F315 /* play.png */; };
@@ -119,8 +119,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		173B1E761AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreateFloaterOnTapNode.cpp; sourceTree = "<group>"; };
-		173B1E771AC3B7B40070F315 /* CreateFloaterOnTapNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFloaterOnTapNode.h; sourceTree = "<group>"; };
+		173B1E761AC3B7B40070F315 /* CreateGliderOnTapNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreateGliderOnTapNode.cpp; sourceTree = "<group>"; };
+		173B1E771AC3B7B40070F315 /* CreateGliderOnTapNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGliderOnTapNode.h; sourceTree = "<group>"; };
 		173B1E931AC3C22E0070F315 /* button_black_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_pause.png; sourceTree = "<group>"; };
 		173B1E961AC3C3960070F315 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		173D2CE41AC10C1000161C38 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
@@ -276,8 +276,8 @@
 		173D2CE71AC10C1000161C38 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				173B1E761AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp */,
-				173B1E771AC3B7B40070F315 /* CreateFloaterOnTapNode.h */,
+				173B1E761AC3B7B40070F315 /* CreateGliderOnTapNode.cpp */,
+				173B1E771AC3B7B40070F315 /* CreateGliderOnTapNode.h */,
 				173D2CF61AC1211A00161C38 /* GameOfLifeLivingCell.cpp */,
 				173D2CF71AC1211A00161C38 /* GameOfLifeLivingCell.h */,
 				173D2CF21AC11DB800161C38 /* GameOfLifeSimulationNode.cpp */,
@@ -579,7 +579,7 @@
 				173D2CEA1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
 				173D2CF41AC11DB800161C38 /* GameOfLifeSimulationNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				173B1E781AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp in Sources */,
+				173B1E781AC3B7B40070F315 /* CreateGliderOnTapNode.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				173D2D9E1AC2965500161C38 /* PoolableNode.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -590,7 +590,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				173B1E791AC3B7B40070F315 /* CreateFloaterOnTapNode.cpp in Sources */,
+				173B1E791AC3B7B40070F315 /* CreateGliderOnTapNode.cpp in Sources */,
 				173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */,
 				173D2D011AC13A6400161C38 /* GridUtilities.cpp in Sources */,
 				173D2D9F1AC2965500161C38 /* PoolableNode.cpp in Sources */,

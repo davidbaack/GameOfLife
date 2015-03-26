@@ -1,4 +1,4 @@
-#include "CreateFloaterOnTapNode.h"
+#include "CreateGliderOnTapNode.h"
 #include "GameOfLifeSimulationNode.h"
 
 using namespace game;
@@ -7,41 +7,41 @@ using namespace std;
 
 static const float TAP_MOVEMENT_THRESHOLD = 50.0f;
 
-CreateFloaterOnTapNode::CreateFloaterOnTapNode()
+CreateGliderOnTapNode::CreateGliderOnTapNode()
     : mGameOfLifeSimulationNode(nullptr)
 {
     // listen for touch events
     auto touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = bind(&CreateFloaterOnTapNode::onTouchBegan, this, placeholders::_1, placeholders::_2);
-    touchListener->onTouchEnded = bind(&CreateFloaterOnTapNode::onTouchEnded, this, placeholders::_1, placeholders::_2);
-    touchListener->onTouchCancelled = bind(&CreateFloaterOnTapNode::onTouchCancelled, this, placeholders::_1, placeholders::_2);
+    touchListener->onTouchBegan = bind(&CreateGliderOnTapNode::onTouchBegan, this, placeholders::_1, placeholders::_2);
+    touchListener->onTouchEnded = bind(&CreateGliderOnTapNode::onTouchEnded, this, placeholders::_1, placeholders::_2);
+    touchListener->onTouchCancelled = bind(&CreateGliderOnTapNode::onTouchCancelled, this, placeholders::_1, placeholders::_2);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
-CreateFloaterOnTapNode::~CreateFloaterOnTapNode()
+CreateGliderOnTapNode::~CreateGliderOnTapNode()
 {}
 
-void CreateFloaterOnTapNode::setGameOfLifeSimulationNode(GameOfLifeSimulationNode* simulationNode)
+void CreateGliderOnTapNode::setGameOfLifeSimulationNode(GameOfLifeSimulationNode* simulationNode)
 {
     mGameOfLifeSimulationNode = simulationNode;
 }
 
-bool CreateFloaterOnTapNode::onTouchBegan(Touch* touch, Event* unused_event)
+bool CreateGliderOnTapNode::onTouchBegan(Touch* touch, Event* unused_event)
 {
     return true;
 }
 
-void CreateFloaterOnTapNode::onTouchEnded(Touch* touch, Event* unused_event)
+void CreateGliderOnTapNode::onTouchEnded(Touch* touch, Event* unused_event)
 {
-    createFloaterIfTapGesture(touch);
+    createGliderIfTapGesture(touch);
 }
 
-void CreateFloaterOnTapNode::onTouchCancelled(Touch* touch, Event* unused_event)
+void CreateGliderOnTapNode::onTouchCancelled(Touch* touch, Event* unused_event)
 {
-    createFloaterIfTapGesture(touch);
+    createGliderIfTapGesture(touch);
 }
 
-void CreateFloaterOnTapNode::createFloaterIfTapGesture(Touch* touch) const
+void CreateGliderOnTapNode::createGliderIfTapGesture(Touch* touch) const
 {
     if (mGameOfLifeSimulationNode && fabs(touch->getLocation().getDistance(touch->getStartLocation())) < TAP_MOVEMENT_THRESHOLD)
     {

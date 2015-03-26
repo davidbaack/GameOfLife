@@ -1,17 +1,17 @@
-#ifndef _GAME_CREATE_FLOATER_ON_TAP_NODE_H
-#define _GAME_CREATE_FLOATER_ON_TAP_NODE_H
+#ifndef _GAME_CREATE_GLIDER_ON_TAP_NODE_H
+#define _GAME_CREATE_GLIDER_ON_TAP_NODE_H
 
 namespace game
 {
 
 class GameOfLifeSimulationNode;
 
-class CreateFloaterOnTapNode final : public cocos2d::Node
+class CreateGliderOnTapNode final : public cocos2d::Node
 {
     
 public:
     
-    CREATE_FUNC(CreateFloaterOnTapNode);
+    CREATE_FUNC(CreateGliderOnTapNode);
     
     void setGameOfLifeSimulationNode(GameOfLifeSimulationNode* simulationNode);
     
@@ -21,14 +21,14 @@ public:
 private:
     
     // Use create instead of constructor
-    CreateFloaterOnTapNode();
+    CreateGliderOnTapNode();
     // Nodes are reference counted, not explicitly deleted
-    virtual ~CreateFloaterOnTapNode();
+    virtual ~CreateGliderOnTapNode();
     
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unused_event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unused_event);
     void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event* unused_event);
-    void createFloaterIfTapGesture(cocos2d::Touch* touch) const;
+    void createGliderIfTapGesture(cocos2d::Touch* touch) const;
     
     GameOfLifeSimulationNode* mGameOfLifeSimulationNode;
     
@@ -36,4 +36,4 @@ private:
     
 }
 
-#endif // _GAME_CREATE_FLOATER_ON_TAP_NODE_H
+#endif // _GAME_CREATE_GLIDER_ON_TAP_NODE_H
