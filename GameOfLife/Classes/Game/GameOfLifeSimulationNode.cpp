@@ -3,6 +3,7 @@
 #include "NotificationCenter.h"
 #include "GameOfLifeScene.h"
 #include <chrono>
+#include <fstream>
 
 using namespace game;
 using namespace cocos2d;
@@ -18,7 +19,57 @@ GameOfLifeSimulationNode::GameOfLifeSimulationNode()
 }
 
 GameOfLifeSimulationNode::~GameOfLifeSimulationNode()
-{}
+{
+    printf("");
+}
+
+void GameOfLifeSimulationNode::createCellsFromFile(const string& filePath)
+{
+    const auto& fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
+    fstream ifs(fullFilePath, ifstream::in);
+    // File not found
+    if (!ifs.is_open())
+    {
+        return;
+    }
+    string input;
+    getline(ifs, input);
+    while (ifs.good())
+    {
+        auto gridXInputStartPosition = input.find("(");
+        auto gridXInputEndPosition = input.find(",");
+        auto gridYInputStartPosition = input.find(" ");
+        if (gridYInputStartPosition == string::npos) // Just in case there is no space after the comma
+        {
+            gridYInputStartPosition = gridXInputEndPosition;
+        }
+        auto gridYInputEndPosition = input.find(")");
+        const auto& gridXString = input.substr(gridXInputStartPosition + 1, gridXInputEndPosition - gridXInputStartPosition - 1);
+        const auto& gridYString = input.substr(gridYInputStartPosition + 1, gridYInputEndPosition - gridYInputStartPosition - 1);
+        printf("%s\n%s\n", gridXString.c_str(), gridYString.c_str());
+        
+        auto gridX = stoll(gridXString);
+        auto gridY = stoll(gridYString);
+        createCell(GridUtilities::GridCoordinate(gridX, gridY));
+        
+        getline(ifs, input);
+    }
+    ifs.close();
+}
+
+void GameOfLifeSimulationNode::createRandomCells(long long gridRange, long long numCells)
+{
+    long long numCellsCreated = 0;
+    while (numCellsCreated < numCells)
+    {
+        const auto& randomGridCoordinate = GridUtilities::GridCoordinate((rand() % gridRange) - (gridRange / 2), (rand() % gridRange) - (gridRange / 2));
+        if (!doesGridCoordinateContainLivingCell(randomGridCoordinate))
+        {
+            createCell(randomGridCoordinate);
+            numCellsCreated++;
+        }
+    }
+}
 
 void GameOfLifeSimulationNode::runSimulation(float tickInterval)
 {
@@ -117,7 +168,7 @@ void GameOfLifeSimulationNode::tickSimulation()
     }
     
     chrono::high_resolution_clock::time_point timeSimulationEnd = chrono::high_resolution_clock::now();
-    chrono::milliseconds timeTaken = std::chrono::duration_cast<chrono::milliseconds>(timeSimulationEnd - timeSimulationStart);
+    chrono::milliseconds timeTaken = chrono::duration_cast<chrono::milliseconds>(timeSimulationEnd - timeSimulationStart);
     printf("Simulation tick time taken: %lli milliseconds\n", timeTaken.count());
 }
 

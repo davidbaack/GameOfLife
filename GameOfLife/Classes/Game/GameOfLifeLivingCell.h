@@ -18,7 +18,6 @@ public:
     
     virtual void onPutInPool() override;
     virtual void onRetrieveFromPool() override;
-    
     void setPositionForGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate);
     
 private:

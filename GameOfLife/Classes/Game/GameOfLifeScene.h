@@ -7,6 +7,8 @@ namespace game
 {
     
 class GameOfLifeSimulationNode;
+class CameraNode;
+class CreateGliderOnTapNode;
 
 class GameOfLifeScene : public cocos2d::Layer
 {
@@ -24,12 +26,12 @@ private:
     
     CREATE_FUNC(GameOfLifeScene);
     
-    void spawnRandomCells(GameOfLifeSimulationNode* gameOfLifeSimulationNode, long long gridRange, long long numCells);
+    void resetSimulation(CameraNode* cameraNode, CreateGliderOnTapNode* createGliderOnTapNode);
     
     cocos2d::MenuItemImage* mPauseButton;
     cocos2d::MenuItemImage* mPlayButton;
-    
     GameOfLifeSimulationNode* mGameOfLifeSimulationNode;
+    bool mIsSimulationPaused;
     
 };
     

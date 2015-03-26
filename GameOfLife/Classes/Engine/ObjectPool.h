@@ -6,6 +6,9 @@
 namespace engine
 {
 
+/** @brief A classic object pool used to avoid unnecesary construction and destruction of objects.
+ **        Objects that are put in the pool must inherit from PoolableNode
+ */
 template<typename T>
 class ObjectPool final
 {

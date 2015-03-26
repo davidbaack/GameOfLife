@@ -13,6 +13,16 @@
 		173B1E951AC3C22E0070F315 /* button_black_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E931AC3C22E0070F315 /* button_black_pause.png */; };
 		173B1E971AC3C3960070F315 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E961AC3C3960070F315 /* play.png */; };
 		173B1E981AC3C3960070F315 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E961AC3C3960070F315 /* play.png */; };
+		173B1E9B1AC3C9C20070F315 /* Zoom-In-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E991AC3C9C20070F315 /* Zoom-In-icon.png */; };
+		173B1E9C1AC3C9C20070F315 /* Zoom-In-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E991AC3C9C20070F315 /* Zoom-In-icon.png */; };
+		173B1E9D1AC3C9C20070F315 /* Zoom-Out-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E9A1AC3C9C20070F315 /* Zoom-Out-icon.png */; };
+		173B1E9E1AC3C9C20070F315 /* Zoom-Out-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E9A1AC3C9C20070F315 /* Zoom-Out-icon.png */; };
+		173B1EA01AC3CA1F0070F315 /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E9F1AC3CA1F0070F315 /* input.txt */; };
+		173B1EA11AC3CA1F0070F315 /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 173B1E9F1AC3CA1F0070F315 /* input.txt */; };
+		173B1EA31AC3D4FD0070F315 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1EA21AC3D4FD0070F315 /* file.png */; };
+		173B1EA41AC3D4FD0070F315 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1EA21AC3D4FD0070F315 /* file.png */; };
+		173B1EA61AC3D7220070F315 /* MissingNo.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1EA51AC3D7220070F315 /* MissingNo.png */; };
+		173B1EA71AC3D7220070F315 /* MissingNo.png in Resources */ = {isa = PBXBuildFile; fileRef = 173B1EA51AC3D7220070F315 /* MissingNo.png */; };
 		173D2CEA1AC10C1000161C38 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE41AC10C1000161C38 /* AppDelegate.cpp */; };
 		173D2CEB1AC10C1000161C38 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE41AC10C1000161C38 /* AppDelegate.cpp */; };
 		173D2CEC1AC10C1000161C38 /* GameOfLifeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */; };
@@ -123,6 +133,11 @@
 		173B1E771AC3B7B40070F315 /* CreateGliderOnTapNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGliderOnTapNode.h; sourceTree = "<group>"; };
 		173B1E931AC3C22E0070F315 /* button_black_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_pause.png; sourceTree = "<group>"; };
 		173B1E961AC3C3960070F315 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		173B1E991AC3C9C20070F315 /* Zoom-In-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zoom-In-icon.png"; sourceTree = "<group>"; };
+		173B1E9A1AC3C9C20070F315 /* Zoom-Out-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zoom-Out-icon.png"; sourceTree = "<group>"; };
+		173B1E9F1AC3CA1F0070F315 /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
+		173B1EA21AC3D4FD0070F315 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
+		173B1EA51AC3D7220070F315 /* MissingNo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingNo.png; sourceTree = "<group>"; };
 		173D2CE41AC10C1000161C38 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		173D2CE51AC10C1000161C38 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		173D2CE81AC10C1000161C38 /* GameOfLifeScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOfLifeScene.cpp; sourceTree = "<group>"; };
@@ -357,7 +372,12 @@
 				46880B7719C43A67006E1F66 /* CloseSelected.png */,
 				173B1E931AC3C22E0070F315 /* button_black_pause.png */,
 				173B1E961AC3C3960070F315 /* play.png */,
+				173B1E991AC3C9C20070F315 /* Zoom-In-icon.png */,
+				173B1E9A1AC3C9C20070F315 /* Zoom-Out-icon.png */,
+				173B1EA21AC3D4FD0070F315 /* file.png */,
+				173B1EA51AC3D7220070F315 /* MissingNo.png */,
 				173D2CFA1AC127C300161C38 /* WhitePixel.png */,
+				173B1E9F1AC3CA1F0070F315 /* input.txt */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -528,6 +548,7 @@
 				173D2CFB1AC127C300161C38 /* WhitePixel.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
+				173B1EA01AC3CA1F0070F315 /* input.txt in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
@@ -535,6 +556,7 @@
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
+				173B1E9B1AC3C9C20070F315 /* Zoom-In-icon.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
@@ -544,6 +566,9 @@
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				173B1E971AC3C3960070F315 /* play.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				173B1EA31AC3D4FD0070F315 /* file.png in Resources */,
+				173B1E9D1AC3C9C20070F315 /* Zoom-Out-icon.png in Resources */,
+				173B1EA61AC3D7220070F315 /* MissingNo.png in Resources */,
 				173B1E941AC3C22E0070F315 /* button_black_pause.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 			);
@@ -554,13 +579,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
+				173B1EA11AC3CA1F0070F315 /* input.txt in Resources */,
 				173B1E981AC3C3960070F315 /* play.png in Resources */,
 				173B1E951AC3C22E0070F315 /* button_black_pause.png in Resources */,
 				3EACC99019EE6D4300EB3C5E /* res in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
+				173B1EA71AC3D7220070F315 /* MissingNo.png in Resources */,
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				173B1E9E1AC3C9C20070F315 /* Zoom-Out-icon.png in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
+				173B1E9C1AC3C9C20070F315 /* Zoom-In-icon.png in Resources */,
 				173D2CFC1AC127C300161C38 /* WhitePixel.png in Resources */,
+				173B1EA41AC3D4FD0070F315 /* file.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

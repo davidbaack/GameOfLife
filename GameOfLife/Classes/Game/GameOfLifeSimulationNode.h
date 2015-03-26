@@ -19,6 +19,8 @@ public:
     
     CREATE_FUNC(GameOfLifeSimulationNode);
     
+    void createCellsFromFile(const std::string& filePath);
+    void createRandomCells(long long gridRange, long long numCells);
     void runSimulation(float tickInterval);
     bool doesGridCoordinateContainLivingCell(const GridUtilities::GridCoordinate& gridCoordinate);
     void createCell(const GridUtilities::GridCoordinate& gridCoordinate);
