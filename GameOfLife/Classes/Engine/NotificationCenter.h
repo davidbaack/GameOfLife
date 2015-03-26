@@ -29,7 +29,7 @@ private:
     NotificationCenter(const NotificationCenter&) = delete;
     NotificationCenter& operator=(const NotificationCenter&) = delete;
     
-    std::unordered_map<std::string, std::list<std::weak_ptr<std::function<void()>>>> mNotificationToCallbacksMap;
+    std::unordered_map<std::string, std::list<std::weak_ptr<std::function<void()>>>> mNotificationNameToCallbacksMap;
     
 };
     

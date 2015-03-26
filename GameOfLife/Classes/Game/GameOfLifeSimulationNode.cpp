@@ -19,9 +19,7 @@ GameOfLifeSimulationNode::GameOfLifeSimulationNode()
 }
 
 GameOfLifeSimulationNode::~GameOfLifeSimulationNode()
-{
-    printf("");
-}
+{}
 
 void GameOfLifeSimulationNode::createCellsFromFile(const string& filePath)
 {

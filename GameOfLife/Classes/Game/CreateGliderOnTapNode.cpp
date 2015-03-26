@@ -52,6 +52,5 @@ void CreateGliderOnTapNode::createGliderIfTapGesture(Touch* touch) const
         mGameOfLifeSimulationNode->createCell(GridUtilities::GridCoordinate(tappedGridCoordinate.first + 2, tappedGridCoordinate.second));
         mGameOfLifeSimulationNode->createCell(GridUtilities::GridCoordinate(tappedGridCoordinate.first + 2, tappedGridCoordinate.second + 1));
         mGameOfLifeSimulationNode->createCell(GridUtilities::GridCoordinate(tappedGridCoordinate.first + 1, tappedGridCoordinate.second + 2));
-        
     }
 }

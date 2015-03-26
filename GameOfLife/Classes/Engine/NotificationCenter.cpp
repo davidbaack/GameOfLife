@@ -17,11 +17,11 @@ NotificationCenter::~NotificationCenter()
 
 void NotificationCenter::notify(const string& notificationName)
 {
-    if (mNotificationToCallbacksMap.count(notificationName) == 0)
+    if (mNotificationNameToCallbacksMap.count(notificationName) == 0)
     {
         return;
     }
-    auto& callbackList = mNotificationToCallbacksMap.at(notificationName);
+    auto& callbackList = mNotificationNameToCallbacksMap.at(notificationName);
     
     // Invoke all subscribed callback functions, and remove any expired callback functions to avoid bloat
     for (auto iter = callbackList.begin(); iter != callbackList.end();)
@@ -41,6 +41,6 @@ void NotificationCenter::notify(const string& notificationName)
 
 void NotificationCenter::subscribe(const string& notificationName, weak_ptr<function<void()>> callback)
 {
-    auto& callbackList = mNotificationToCallbacksMap[notificationName];
+    auto& callbackList = mNotificationNameToCallbacksMap[notificationName];
     callbackList.push_back(callback);
 }

@@ -12,6 +12,8 @@ const string GameOfLifeScene::PAUSE = "Pause";
 const string GameOfLifeScene::PLAY = "Play";
 const float TICK_INTERVAL = 0.2f;
 const float ZOOM_FACTOR = 0.2f;
+const int RANDOM_GRID_RANGE = 600;
+const int RANDOM_NUM_CELLS_TO_SPAWN = 30000;
 
 Scene* GameOfLifeScene::createScene()
 {
@@ -28,7 +30,7 @@ bool GameOfLifeScene::init()
         return false;
     }
     
-    srand(time(NULL));
+    srand(time(nullptr));
     mIsSimulationPaused = false;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -106,7 +108,7 @@ bool GameOfLifeScene::init()
     [this, cameraNode, createGliderOnTapNode](Ref* sender)
     {
         resetSimulation(cameraNode, createGliderOnTapNode);
-        mGameOfLifeSimulationNode->createRandomCells(600, 40000);
+        mGameOfLifeSimulationNode->createRandomCells(RANDOM_GRID_RANGE, RANDOM_NUM_CELLS_TO_SPAWN);
     });
     randomCreateButton->setPosition(readFromFileButton->getPosition().x - 60.0f, readFromFileButton->getPosition().y);
     
@@ -130,7 +132,7 @@ bool GameOfLifeScene::init()
     menu->setPosition(Vec2::ZERO);
     addChild(menu, zOrder++);
     
-    mGameOfLifeSimulationNode->createRandomCells(600, 40000);
+    mGameOfLifeSimulationNode->createRandomCells(RANDOM_GRID_RANGE, RANDOM_NUM_CELLS_TO_SPAWN);
     mGameOfLifeSimulationNode->runSimulation(TICK_INTERVAL);
     
     return true;
@@ -147,6 +149,6 @@ void GameOfLifeScene::resetSimulation(CameraNode* cameraNode, CreateGliderOnTapN
     mGameOfLifeSimulationNode->runSimulation(TICK_INTERVAL);
     if (mIsSimulationPaused)
     {
-        mGameOfLifeSimulationNode->pause();
+        engine::NotificationCenter::getInstance().notify(GameOfLifeScene::PAUSE);
     }
 }
