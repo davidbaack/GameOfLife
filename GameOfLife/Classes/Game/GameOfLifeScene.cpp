@@ -10,10 +10,11 @@ using namespace std;
 
 const string GameOfLifeScene::PAUSE = "Pause";
 const string GameOfLifeScene::PLAY = "Play";
+
 const float TICK_INTERVAL = 0.2f;
 const float ZOOM_FACTOR = 0.2f;
-const int RANDOM_GRID_RANGE = 600;
-const int RANDOM_NUM_CELLS_TO_SPAWN = 30000;
+const int RANDOM_GRID_RANGE = 1000;
+const int RANDOM_NUM_CELLS_TO_SPAWN = 100000;
 
 Scene* GameOfLifeScene::createScene()
 {

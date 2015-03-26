@@ -6,8 +6,6 @@
 
 namespace game
 {
-    
-class GameOfLifeSimulationNode;
 
 class GameOfLifeLivingCell final : public engine::PoolableNode
 {
