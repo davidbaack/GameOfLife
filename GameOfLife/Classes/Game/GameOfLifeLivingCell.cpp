@@ -19,21 +19,6 @@ void GameOfLifeLivingCell::onRetrieveFromPool()
     setVisible(true);
 }
 
-GameOfLifeLivingCell* GameOfLifeLivingCell::create()
-{
-    GameOfLifeLivingCell* pRet = new(nothrow) GameOfLifeLivingCell();
-    if (pRet && pRet->init())
-    {
-        pRet->autorelease();
-        return pRet;
-    }
-    else
-    {
-        delete pRet;
-        return nullptr;
-    }
-}
-
 GameOfLifeLivingCell::GameOfLifeLivingCell()
 {
     mSprite = Sprite::create(SPRITE_NAME);

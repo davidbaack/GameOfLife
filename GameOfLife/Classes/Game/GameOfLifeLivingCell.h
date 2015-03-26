@@ -14,10 +14,11 @@ class GameOfLifeLivingCell final : public engine::PoolableNode
     
 public:
     
+    CREATE_FUNC(GameOfLifeLivingCell);
+    
     virtual void onPutInPool() override;
     virtual void onRetrieveFromPool() override;
     
-    static GameOfLifeLivingCell* create();
     void setPositionForGridCoordinate(const GridUtilities::GridCoordinate& gridCoordinate);
     
 private:
