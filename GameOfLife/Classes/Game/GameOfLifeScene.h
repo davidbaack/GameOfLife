@@ -22,6 +22,7 @@ private:
     CREATE_FUNC(GameOfLifeScene);
     
     void menuCloseCallback(cocos2d::Ref* sender);
+    void spawnRandomCells(GameOfLifeSimulationNode* gameOfLifeSimulationNode, long long gridRange, long long numCells);
     
     GameOfLifeSimulationNode* mGameOfLifeSimulationNode;
     

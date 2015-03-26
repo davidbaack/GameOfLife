@@ -11,7 +11,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     GridCoordinate adjacentGridCoordinate = gridCoordinate;
     if (direction == EAST)
     {
-        if (gridCoordinate.first < INT_64_MAX_VALUE)
+        if (gridCoordinate.first < MAX_GRID_INDEX)
         {
             ++adjacentGridCoordinate.first;
             isOutsideOfGrid = false;
@@ -19,7 +19,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == SOUTHEAST)
     {
-        if (gridCoordinate.first < INT_64_MAX_VALUE && gridCoordinate.second > INT_64_MIN_VALUE)
+        if (gridCoordinate.first < MAX_GRID_INDEX && gridCoordinate.second > MIN_GRID_INDEX)
         {
             ++adjacentGridCoordinate.first;
             --adjacentGridCoordinate.second;
@@ -28,7 +28,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == SOUTH)
     {
-        if (gridCoordinate.second > INT_64_MIN_VALUE)
+        if (gridCoordinate.second > MIN_GRID_INDEX)
         {
             --adjacentGridCoordinate.second;
             isOutsideOfGrid = false;
@@ -36,7 +36,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == SOUTHWEST)
     {
-        if (gridCoordinate.first > INT_64_MIN_VALUE && gridCoordinate.second > INT_64_MIN_VALUE)
+        if (gridCoordinate.first > MIN_GRID_INDEX && gridCoordinate.second > MIN_GRID_INDEX)
         {
             --adjacentGridCoordinate.first;
             --adjacentGridCoordinate.second;
@@ -45,7 +45,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == WEST)
     {
-        if (gridCoordinate.first > INT_64_MIN_VALUE)
+        if (gridCoordinate.first > MIN_GRID_INDEX)
         {
             --adjacentGridCoordinate.first;
             isOutsideOfGrid = false;
@@ -53,7 +53,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == NORTHWEST)
     {
-        if (gridCoordinate.first > INT_64_MIN_VALUE && gridCoordinate.second < INT_64_MAX_VALUE)
+        if (gridCoordinate.first > MIN_GRID_INDEX && gridCoordinate.second < MAX_GRID_INDEX)
         {
             --adjacentGridCoordinate.first;
             ++adjacentGridCoordinate.second;
@@ -62,7 +62,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == NORTH)
     {
-        if (gridCoordinate.second < INT_64_MAX_VALUE)
+        if (gridCoordinate.second < MAX_GRID_INDEX)
         {
             ++adjacentGridCoordinate.second;
             isOutsideOfGrid = false;
@@ -70,7 +70,7 @@ GridUtilities::GridCoordinate GridUtilities::getAdjacentGridCoordinateInDirectio
     }
     else if (direction == NORTHEAST)
     {
-        if (gridCoordinate.first < INT_64_MAX_VALUE && gridCoordinate.second < INT_64_MAX_VALUE)
+        if (gridCoordinate.first < MAX_GRID_INDEX && gridCoordinate.second < MAX_GRID_INDEX)
         {
             ++adjacentGridCoordinate.first;
             ++adjacentGridCoordinate.second;

@@ -7,17 +7,6 @@ using namespace game;
 using namespace cocos2d;
 using namespace std;
 
-void makeFloater(vector<GridUtilities::GridCoordinate>& livingCellCoordinates)
-{
-    auto startX = rand() % 100;
-    auto startY = rand() % 100;
-    livingCellCoordinates.push_back(make_pair(startX, startY));
-    livingCellCoordinates.push_back(make_pair(startX + 1, startY));
-    livingCellCoordinates.push_back(make_pair(startX + 2, startY));
-    livingCellCoordinates.push_back(make_pair(startX + 2, startY + 1));
-    livingCellCoordinates.push_back(make_pair(startX + 1, startY + 2));
-}
-
 Scene* GameOfLifeScene::createScene()
 {
     auto scene = Scene::create();
@@ -54,19 +43,12 @@ bool GameOfLifeScene::init()
     mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
     cameraNode->addChild(mGameOfLifeSimulationNode, zOrder++);
     
+    // Add the create floater on tap node
     auto createFloaterOnTapNode = CreateFloaterOnTapNode::create();
     createFloaterOnTapNode->setGameOfLifeSimulationNode(mGameOfLifeSimulationNode);
     addChild(createFloaterOnTapNode, zOrder++);
     
-    vector<GridUtilities::GridCoordinate> livingCellCoordinates;
-    for (int i = 0; i < 100; ++i)
-    {
-        makeFloater(livingCellCoordinates);
-    }
-    for (const auto& gridCoordinate : livingCellCoordinates)
-    {
-        mGameOfLifeSimulationNode->createCell(gridCoordinate);
-    }
+    spawnRandomCells(mGameOfLifeSimulationNode, 600, 40000);
     mGameOfLifeSimulationNode->runSimulation(0.2f);
     
     return true;
@@ -84,4 +66,18 @@ void GameOfLifeScene::menuCloseCallback(Ref* sender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void GameOfLifeScene::spawnRandomCells(GameOfLifeSimulationNode* gameOfLifeSimulationNode, long long gridRange, long long numCells)
+{
+    long long numCellsCreated = 0;
+    while (numCellsCreated < numCells)
+    {
+        const auto& randomGridCoordinate = GridUtilities::GridCoordinate((rand() % gridRange) - (gridRange / 2), (rand() % gridRange) - (gridRange / 2));
+        if (!gameOfLifeSimulationNode->doesGridCoordinateContainLivingCell(randomGridCoordinate))
+        {
+            gameOfLifeSimulationNode->createCell(randomGridCoordinate);
+            numCellsCreated++;
+        }
+    }
 }

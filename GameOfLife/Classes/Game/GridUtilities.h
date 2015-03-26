@@ -6,8 +6,8 @@ namespace game
 
 struct GridUtilities
 {
-    static constexpr int64_t INT_64_MAX_VALUE = 9223372036854775807;
-    static constexpr int64_t INT_64_MIN_VALUE = -9223372036854775807;
+    static constexpr int64_t MAX_GRID_INDEX = 9223372036854775807;
+    static constexpr int64_t MIN_GRID_INDEX = -9223372036854775807;
     static constexpr int GRID_SPACE_SIZE = 10;
     
     using GridCoordinate = std::pair<int64_t, int64_t>;

@@ -30,10 +30,14 @@ void GameOfLifeSimulationNode::runSimulation(float tickInterval)
     runAction(mTickAction);
 }
 
+bool GameOfLifeSimulationNode::doesGridCoordinateContainLivingCell(const GridUtilities::GridCoordinate& gridCoordinate)
+{
+    return mGridCoordinateToLivingCellMap.count(gridCoordinate) > 0;
+}
+
 void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& gridCoordinate)
 {
-    // Check if this cell is already alive
-    if (mGridCoordinateToLivingCellMap.count(gridCoordinate) > 0)
+    if (doesGridCoordinateContainLivingCell(gridCoordinate))
     {
         printf("Warning: trying to create a cell in a grid space that's already occupied\n");
         return;
@@ -51,7 +55,6 @@ void GameOfLifeSimulationNode::createCell(const GridUtilities::GridCoordinate& g
 void GameOfLifeSimulationNode::killCell(const GridUtilities::GridCoordinate& gridCoordinate)
 {
     auto iter = mGridCoordinateToLivingCellMap.find(gridCoordinate);
-    // Check if this cell is already dead
     if (iter == mGridCoordinateToLivingCellMap.end())
     {
         printf("Warning: trying to kill a cell that has already been killed\n");
@@ -97,9 +100,8 @@ void GameOfLifeSimulationNode::tickSimulation()
     {
         const auto& gridCoordinate = gridCoordinateToAdjacentLivingCellCountPair.first;
         auto adjacentLivingCellCount = gridCoordinateToAdjacentLivingCellCountPair.second;
-        auto livingCellIter = mGridCoordinateToLivingCellMap.find(gridCoordinate);
         // Die if the number of adjacent living cells isn't 2 or 3
-        if (livingCellIter != mGridCoordinateToLivingCellMap.end())
+        if (doesGridCoordinateContainLivingCell(gridCoordinate))
         {
             if (adjacentLivingCellCount < 2 || adjacentLivingCellCount > 3)
             {

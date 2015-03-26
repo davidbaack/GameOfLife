@@ -20,6 +20,7 @@ public:
     CREATE_FUNC(GameOfLifeSimulationNode);
     
     void runSimulation(float tickInterval);
+    bool doesGridCoordinateContainLivingCell(const GridUtilities::GridCoordinate& gridCoordinate);
     void createCell(const GridUtilities::GridCoordinate& gridCoordinate);
     void killCell(const GridUtilities::GridCoordinate& gridCoordinate);
     
