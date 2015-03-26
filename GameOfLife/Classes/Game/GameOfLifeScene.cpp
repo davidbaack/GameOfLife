@@ -33,6 +33,7 @@ bool GameOfLifeScene::init()
     
     srand(time(nullptr));
     mIsSimulationPaused = false;
+    Director::getInstance()->setDisplayStats(false);
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
