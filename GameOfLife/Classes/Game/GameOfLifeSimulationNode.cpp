@@ -1,7 +1,7 @@
 #include "GameOfLifeSimulationNode.h"
 #include "GameOfLifeLivingCell.h"
 #include "NotificationCenter.h"
-#include "CameraNode.h"
+#include "GameOfLifeScene.h"
 #include <chrono>
 
 using namespace game;
@@ -11,10 +11,10 @@ using namespace std;
 GameOfLifeSimulationNode::GameOfLifeSimulationNode()
     : mTickAction(nullptr)
 {
-    mCameraMovementBeginCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementBegin, this));
-    engine::NotificationCenter::getInstance().subscribe(CameraNode::CAMERA_MOVEMENT_BEGIN, mCameraMovementBeginCallback);
-    mCameraMovementEndCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onCameraMovementEnd, this));
-    engine::NotificationCenter::getInstance().subscribe(CameraNode::CAMERA_MOVEMENT_END, mCameraMovementEndCallback);
+    mPauseCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onPause, this));
+    engine::NotificationCenter::getInstance().subscribe(GameOfLifeScene::PAUSE, mPauseCallback);
+    mPlayCallback = make_shared<function<void()>>(bind(&GameOfLifeSimulationNode::onPlay, this));
+    engine::NotificationCenter::getInstance().subscribe(GameOfLifeScene::PLAY, mPlayCallback);
 }
 
 GameOfLifeSimulationNode::~GameOfLifeSimulationNode()
@@ -131,12 +131,12 @@ void GameOfLifeSimulationNode::tickSimulation()
     printf("Simulation tick time taken: %lli milliseconds\n", timeTaken.count());
 }
 
-void GameOfLifeSimulationNode::onCameraMovementBegin()
+void GameOfLifeSimulationNode::onPause()
 {
-    //pause();
+    pause();
 }
 
-void GameOfLifeSimulationNode::onCameraMovementEnd()
+void GameOfLifeSimulationNode::onPlay()
 {
-    //resume();
+    resume();
 }

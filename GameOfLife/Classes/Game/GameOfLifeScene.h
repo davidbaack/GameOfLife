@@ -17,12 +17,17 @@ public:
 
     virtual bool init() override;
     
+    static const std::string PAUSE;
+    static const std::string PLAY;
+    
 private:
     
     CREATE_FUNC(GameOfLifeScene);
     
-    void menuCloseCallback(cocos2d::Ref* sender);
     void spawnRandomCells(GameOfLifeSimulationNode* gameOfLifeSimulationNode, long long gridRange, long long numCells);
+    
+    cocos2d::MenuItemImage* mPauseButton;
+    cocos2d::MenuItemImage* mPlayButton;
     
     GameOfLifeSimulationNode* mGameOfLifeSimulationNode;
     

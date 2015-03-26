@@ -2,10 +2,14 @@
 #include "GameOfLifeSimulationNode.h"
 #include "CameraNode.h"
 #include "CreateFloaterOnTapNode.h"
+#include "NotificationCenter.h"
 
 using namespace game;
 using namespace cocos2d;
 using namespace std;
+
+const string GameOfLifeScene::PAUSE = "Pause";
+const string GameOfLifeScene::PLAY = "Play";
 
 Scene* GameOfLifeScene::createScene()
 {
@@ -33,9 +37,43 @@ bool GameOfLifeScene::init()
     addChild(cameraNode, zOrder++);
 
     // Add the close button
-    auto closeButton = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", bind(&GameOfLifeScene::menuCloseCallback, this, placeholders::_1));
+    auto closeButton = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+    [](Ref* sender)
+    {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+        MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
+        return;
+#endif
+        
+        Director::getInstance()->end();
+        
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        exit(0);
+#endif
+    });
 	closeButton->setPosition(Vec2(origin.x + visibleSize.width - closeButton->getContentSize().width / 2, origin.y + closeButton->getContentSize().height / 2));
-    auto menu = Menu::create(closeButton, nullptr);
+    
+    // Add the play button
+    mPlayButton = MenuItemImage::create("play.png", "play.png",
+    [this](Ref* sender)
+    {
+        engine::NotificationCenter::getInstance().notify(GameOfLifeScene::PLAY);
+        mPlayButton->setVisible(false);
+        mPauseButton->setVisible(true);
+    });
+    mPlayButton->setPosition(Vec2(closeButton->getPosition().x - 40.0f, closeButton->getPosition().y));
+    
+    // Add the pause button
+    mPauseButton = MenuItemImage::create("button_black_pause.png", "button_black_pause.png",
+    [this](Ref* sender)
+    {
+        engine::NotificationCenter::getInstance().notify(GameOfLifeScene::PAUSE);
+        mPauseButton->setVisible(false);
+        mPlayButton->setVisible(true);
+    });
+    mPauseButton->setPosition(mPlayButton->getPosition());
+    
+    auto menu = Menu::create(closeButton, mPlayButton, mPauseButton, nullptr);
     menu->setPosition(Vec2::ZERO);
     addChild(menu, zOrder++);
     
@@ -52,20 +90,6 @@ bool GameOfLifeScene::init()
     mGameOfLifeSimulationNode->runSimulation(0.2f);
     
     return true;
-}
-
-void GameOfLifeScene::menuCloseCallback(Ref* sender)
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
-    return;
-#endif
-
-    Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
 }
 
 void GameOfLifeScene::spawnRandomCells(GameOfLifeSimulationNode* gameOfLifeSimulationNode, long long gridRange, long long numCells)

@@ -33,13 +33,13 @@ private:
     
     void tickSimulation();
     
-    void onCameraMovementBegin();
-    void onCameraMovementEnd();
+    void onPause();
+    void onPlay();
     
     std::map<GridUtilities::GridCoordinate, GameOfLifeLivingCell*> mGridCoordinateToLivingCellMap;
     cocos2d::Action* mTickAction;
-    std::shared_ptr<std::function<void()>> mCameraMovementBeginCallback;
-    std::shared_ptr<std::function<void()>> mCameraMovementEndCallback;
+    std::shared_ptr<std::function<void()>> mPauseCallback;
+    std::shared_ptr<std::function<void()>> mPlayCallback;
     engine::ObjectPool<GameOfLifeLivingCell> mLivingCellPool;
     
 };
