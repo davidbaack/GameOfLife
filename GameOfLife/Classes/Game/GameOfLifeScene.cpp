@@ -1,6 +1,7 @@
 #include "GameOfLifeScene.h"
 #include "GameOfLifeSimulationNode.h"
 #include "CameraNode.h"
+#include "CreateFloaterOnTapNode.h"
 
 using namespace game;
 using namespace cocos2d;
@@ -52,6 +53,10 @@ bool GameOfLifeScene::init()
     // Add the game of life simulation
     mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
     cameraNode->addChild(mGameOfLifeSimulationNode, zOrder++);
+    
+    auto createFloaterOnTapNode = CreateFloaterOnTapNode::create();
+    createFloaterOnTapNode->setGameOfLifeSimulationNode(mGameOfLifeSimulationNode);
+    addChild(createFloaterOnTapNode, zOrder++);
     
     vector<GridUtilities::GridCoordinate> livingCellCoordinates;
     for (int i = 0; i < 100; ++i)

@@ -28,6 +28,7 @@ struct GridUtilities
     // If we try to get an adjacent grid coordinate that is outside our maximum range, this will return the original gridCoordinate instead and set isOutsideOfGrid to true;
     static GridCoordinate getAdjacentGridCoordinateInDirection(const GridCoordinate& gridCoordinate, Direction direction, bool& isOutsideOfGrid);
     static std::vector<GridCoordinate> getAdjacentGridCoordinates(const GridCoordinate& gridCoordinate);
+    static GridCoordinate getGridCoordinateForLocation(const cocos2d::Vec2& location);
 };
     
 }

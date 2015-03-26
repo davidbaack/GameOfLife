@@ -95,3 +95,8 @@ vector<GridUtilities::GridCoordinate> GridUtilities::getAdjacentGridCoordinates(
     }
     return adjacentGridCoordinates;
 }
+
+GridUtilities::GridCoordinate GridUtilities::getGridCoordinateForLocation(const cocos2d::Vec2& location)
+{
+    return GridUtilities::GridCoordinate(location.x / GRID_SPACE_SIZE, location.y / GRID_SPACE_SIZE);
+}
