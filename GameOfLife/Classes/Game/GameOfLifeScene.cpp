@@ -61,7 +61,7 @@ bool GameOfLifeScene::init()
         mPlayButton->setVisible(false);
         mPauseButton->setVisible(true);
     });
-    mPlayButton->setPosition(Vec2(closeButton->getPosition().x - 40.0f, closeButton->getPosition().y));
+    mPlayButton->setPosition(Vec2(closeButton->getPosition().x - 60.0f, closeButton->getPosition().y));
     
     // Add the pause button
     mPauseButton = MenuItemImage::create("button_black_pause.png", "button_black_pause.png",

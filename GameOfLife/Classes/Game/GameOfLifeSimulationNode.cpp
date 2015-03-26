@@ -94,8 +94,6 @@ void GameOfLifeSimulationNode::tickSimulation()
     }
     
     // Create and kill cells based on the number of living neighbors
-    list<GridUtilities::GridCoordinate> gridCoordinatesOfCellsToKill;
-    list<GridUtilities::GridCoordinate> gridCoordinatesOfCellsToCreate;
     for (const auto& gridCoordinateToAdjacentLivingCellCountPair : gridCoordinateToAdjacentLivingCellCountMap)
     {
         const auto& gridCoordinate = gridCoordinateToAdjacentLivingCellCountPair.first;
@@ -116,14 +114,6 @@ void GameOfLifeSimulationNode::tickSimulation()
                 createCell(gridCoordinate);
             }
         }
-    }
-    for (const auto& gridCoordinate : gridCoordinatesOfCellsToKill)
-    {
-        killCell(gridCoordinate);
-    }
-    for (const auto& gridCoordinate : gridCoordinatesOfCellsToCreate)
-    {
-        createCell(gridCoordinate);
     }
     
     chrono::high_resolution_clock::time_point timeSimulationEnd = chrono::high_resolution_clock::now();
