@@ -11,6 +11,7 @@ using namespace std;
 const string GameOfLifeScene::PAUSE = "Pause";
 const string GameOfLifeScene::PLAY = "Play";
 const float TICK_INTERVAL = 0.2f;
+const float ZOOM_FACTOR = 0.2f;
 
 Scene* GameOfLifeScene::createScene()
 {
@@ -34,9 +35,14 @@ bool GameOfLifeScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     int zOrder = 0;
     
+    // Add the viewport
+    auto viewPortNode = Node::create();
+    viewPortNode->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
+    addChild(viewPortNode, zOrder++);
+    
     // Add the camera
     auto cameraNode = CameraNode::create();
-    addChild(cameraNode, zOrder++);
+    viewPortNode->addChild(cameraNode, zOrder++);
     
     // Add the game of life simulation
     mGameOfLifeSimulationNode = GameOfLifeSimulationNode::create();
@@ -104,7 +110,23 @@ bool GameOfLifeScene::init()
     });
     randomCreateButton->setPosition(readFromFileButton->getPosition().x - 60.0f, readFromFileButton->getPosition().y);
     
-    auto menu = Menu::create(closeButton, mPlayButton, mPauseButton, readFromFileButton, randomCreateButton, nullptr);
+    // Add the zoom in button
+    auto zoomInButton = MenuItemImage::create("Zoom-In-icon.png", "Zoom-In-icon.png",
+    [viewPortNode](Ref* sender)
+    {
+        viewPortNode->setScale(viewPortNode->getScale() * (1.0f + ZOOM_FACTOR));
+    });
+    zoomInButton->setPosition(randomCreateButton->getPosition().x - 60.0f, randomCreateButton->getPosition().y);
+    
+    // Add the zoom out button
+    auto zoomOutButton = MenuItemImage::create("Zoom-Out-icon.png", "Zoom-Out-icon.png",
+    [viewPortNode](Ref* sender)
+    {
+        viewPortNode->setScale(viewPortNode->getScale() * (1.0f - ZOOM_FACTOR));
+    });
+    zoomOutButton->setPosition(zoomInButton->getPosition().x - 60.0f, zoomInButton->getPosition().y);
+    
+    auto menu = Menu::create(closeButton, mPlayButton, mPauseButton, readFromFileButton, randomCreateButton, zoomInButton, zoomOutButton, nullptr);
     menu->setPosition(Vec2::ZERO);
     addChild(menu, zOrder++);
     

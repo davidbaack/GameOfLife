@@ -30,7 +30,7 @@ bool CameraNode::onTouchBegan(Touch* touch, Event* unused_event)
 
 void CameraNode::onTouchMoved(Touch* touch, Event* unused_event)
 {
-    Vec2 offset = touch->getLocation() - touch->getPreviousLocation();
+    Vec2 offset = getParent()->convertToNodeSpace(touch->getLocation()) - getParent()->convertToNodeSpace(touch->getPreviousLocation());
     setPosition(getPosition() + offset);
 }
 

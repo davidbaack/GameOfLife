@@ -46,7 +46,7 @@ void GameOfLifeSimulationNode::createCellsFromFile(const string& filePath)
         auto gridYInputEndPosition = input.find(")");
         const auto& gridXString = input.substr(gridXInputStartPosition + 1, gridXInputEndPosition - gridXInputStartPosition - 1);
         const auto& gridYString = input.substr(gridYInputStartPosition + 1, gridYInputEndPosition - gridYInputStartPosition - 1);
-        printf("%s\n%s\n", gridXString.c_str(), gridYString.c_str());
+        printf("Read in coordinate:%s,%s\n", gridXString.c_str(), gridYString.c_str());
         
         auto gridX = stoll(gridXString);
         auto gridY = stoll(gridYString);
